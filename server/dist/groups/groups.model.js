@@ -9,15 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Group = void 0;
 const sequelize_typescript_1 = require("sequelize-typescript");
-const groups_model_1 = require("../groups/groups.model");
 const platform_model_1 = require("../platform/platform.model");
-const roles_model_1 = require("../roles/roles.model");
+const student_model_1 = require("../students/student.model");
 const tickets_model_1 = require("../tickets/tickets.model");
-let User = class User extends sequelize_typescript_1.Model {
+const user_model_1 = require("../user/user.model");
+let Group = class Group extends sequelize_typescript_1.Model {
 };
-exports.User = User;
+exports.Group = Group;
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.UUID,
@@ -26,7 +26,7 @@ __decorate([
         unique: true,
     }),
     __metadata("design:type", String)
-], User.prototype, "id", void 0);
+], Group.prototype, "id", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
@@ -34,40 +34,19 @@ __decorate([
         allowNull: false,
     }),
     __metadata("design:type", String)
-], User.prototype, "login", void 0);
+], Group.prototype, "name", void 0);
 __decorate([
+    (0, sequelize_typescript_1.ForeignKey)(() => user_model_1.User),
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
+        type: sequelize_typescript_1.DataType.UUID,
         allowNull: false,
     }),
     __metadata("design:type", String)
-], User.prototype, "password", void 0);
+], Group.prototype, "curatorId", void 0);
 __decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-        allowNull: false,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "surName", void 0);
-__decorate([
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.STRING,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "telNum", void 0);
+    (0, sequelize_typescript_1.BelongsTo)(() => user_model_1.User),
+    __metadata("design:type", user_model_1.User)
+], Group.prototype, "curator", void 0);
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => platform_model_1.Platform),
     (0, sequelize_typescript_1.Column)({
@@ -75,32 +54,20 @@ __decorate([
         allowNull: false,
     }),
     __metadata("design:type", String)
-], User.prototype, "platformId", void 0);
+], Group.prototype, "platformId", void 0);
 __decorate([
     (0, sequelize_typescript_1.BelongsTo)(() => platform_model_1.Platform),
     __metadata("design:type", platform_model_1.Platform)
-], User.prototype, "platform", void 0);
+], Group.prototype, "platform", void 0);
 __decorate([
-    (0, sequelize_typescript_1.ForeignKey)(() => roles_model_1.Role),
-    (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.UUID,
-        allowNull: false,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "roleId", void 0);
-__decorate([
-    (0, sequelize_typescript_1.BelongsTo)(() => roles_model_1.Role),
-    __metadata("design:type", roles_model_1.Role)
-], User.prototype, "role", void 0);
-__decorate([
-    (0, sequelize_typescript_1.HasMany)(() => groups_model_1.Group, "curatorId"),
+    (0, sequelize_typescript_1.HasMany)(() => student_model_1.Student),
     __metadata("design:type", Array)
-], User.prototype, "groups", void 0);
+], Group.prototype, "students", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => tickets_model_1.Ticket, "curatorId"),
+    (0, sequelize_typescript_1.HasMany)(() => tickets_model_1.Ticket),
     __metadata("design:type", Array)
-], User.prototype, "tickets", void 0);
-exports.User = User = __decorate([
-    (0, sequelize_typescript_1.Table)({ tableName: "users" })
-], User);
-//# sourceMappingURL=user.model.js.map
+], Group.prototype, "tickets", void 0);
+exports.Group = Group = __decorate([
+    (0, sequelize_typescript_1.Table)({ tableName: "groups" })
+], Group);
+//# sourceMappingURL=groups.model.js.map

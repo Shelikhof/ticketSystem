@@ -17,6 +17,17 @@ const user_model_1 = require("./user/user.model");
 const roles_module_1 = require("./roles/roles.module");
 const roles_model_1 = require("./roles/roles.model");
 const auth_module_1 = require("./auth/auth.module");
+const platform_module_1 = require("./platform/platform.module");
+const students_module_1 = require("./students/students.module");
+const groups_module_1 = require("./groups/groups.module");
+const tickets_module_1 = require("./tickets/tickets.module");
+const certificates_module_1 = require("./certificates/certificates.module");
+const certificates_model_1 = require("./certificates/certificates.model");
+const groups_model_1 = require("./groups/groups.model");
+const student_model_1 = require("./students/student.model");
+const tickets_model_1 = require("./tickets/tickets.model");
+const platform_model_1 = require("./platform/platform.model");
+const tickets_students_model_1 = require("./tickets/tickets-students.model");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,12 +44,17 @@ exports.AppModule = AppModule = __decorate([
                 username: process.env.POSTGRES_USER,
                 password: process.env.POSTGRES_PASSWORD,
                 database: process.env.POSTGRES_DB,
-                models: [user_model_1.User, roles_model_1.Role],
+                models: [user_model_1.User, roles_model_1.Role, certificates_model_1.Certificate, groups_model_1.Group, student_model_1.Student, tickets_model_1.Ticket, platform_model_1.Platform, tickets_students_model_1.TicketStudents],
                 autoLoadModels: true,
             }),
             user_module_1.UserModule,
             roles_module_1.RolesModule,
             auth_module_1.AuthModule,
+            platform_module_1.PlatformModule,
+            students_module_1.StudentsModule,
+            groups_module_1.GroupsModule,
+            tickets_module_1.TicketsModule,
+            certificates_module_1.CertificatesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

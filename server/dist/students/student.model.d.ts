@@ -1,31 +1,28 @@
 import { Model } from "sequelize-typescript";
 import { Group } from "src/groups/groups.model";
 import { Platform } from "src/platform/platform.model";
-import { Role } from "src/roles/roles.model";
 import { Ticket } from "src/tickets/tickets.model";
-interface ICreateUser {
+interface ICreateStudent {
     firstName: string;
     lastName: string;
     surName: string;
-    telNum: string;
+    birthDate: Date;
+    gender: string;
+    groupId: string;
     platformId: string;
-    login: string;
-    password: string;
-    roleId: string;
 }
-export declare class User extends Model<User, ICreateUser> {
+export declare class Student extends Model<Student, ICreateStudent> {
     id: string;
-    login: string;
-    password: string;
     firstName: string;
     lastName: string;
     surName: string;
-    telNum: string;
+    birthDate: Date;
+    gender: string;
+    registrNum: string;
+    groupId: string;
+    group: Group;
     platformId: string;
     platform: Platform;
-    roleId: string;
-    role: Role;
-    groups: Group[];
     tickets: Ticket[];
 }
 export {};

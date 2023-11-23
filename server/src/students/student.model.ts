@@ -1,22 +1,21 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Group } from "src/groups/groups.model";
 import { Platform } from "src/platform/platform.model";
-import { Role } from "src/roles/roles.model";
+import { TicketStudents } from "src/tickets/tickets-students.model";
 import { Ticket } from "src/tickets/tickets.model";
 
-interface ICreateUser {
+interface ICreateStudent {
   firstName: string;
   lastName: string;
   surName: string;
-  telNum: string;
+  birthDate: Date;
+  gender: string;
+  groupId: string;
   platformId: string;
-  login: string;
-  password: string;
-  roleId: string;
 }
 
-@Table({ tableName: "users" })
-export class User extends Model<User, ICreateUser> {
+@Table({ tableName: "students" })
+export class Student extends Model<Student, ICreateStudent> {
   @Column({
     type: DataType.UUID,
     primaryKey: true,
@@ -27,19 +26,6 @@ export class User extends Model<User, ICreateUser> {
 
   @Column({
     type: DataType.STRING,
-    unique: true,
-    allowNull: false,
-  })
-  login: string;
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  password: string;
-
-  @Column({
-    type: DataType.STRING,
     allowNull: false,
   })
   firstName: string;
@@ -56,9 +42,30 @@ export class User extends Model<User, ICreateUser> {
   surName: string;
 
   @Column({
+    type: DataType.DATE,
+    allowNull: false,
+  })
+  birthDate: Date;
+
+  @Column({
+    type: DataType.STRING,
+    defaultValue: "male",
+  })
+  gender: string;
+
+  @Column({
     type: DataType.STRING,
   })
-  telNum: string;
+  registrNum: string;
+
+  @ForeignKey(() => Group)
+  @Column({
+    type: DataType.UUID,
+  })
+  groupId: string;
+
+  @BelongsTo(() => Group)
+  group: Group;
 
   @ForeignKey(() => Platform)
   @Column({
@@ -70,19 +77,6 @@ export class User extends Model<User, ICreateUser> {
   @BelongsTo(() => Platform)
   platform: Platform;
 
-  @ForeignKey(() => Role)
-  @Column({
-    type: DataType.UUID,
-    allowNull: false,
-  })
-  roleId: string;
-
-  @BelongsTo(() => Role)
-  role: Role;
-
-  @HasMany(() => Group, "curatorId")
-  groups: Group[];
-
-  @HasMany(() => Ticket, "curatorId")
+  @BelongsToMany(() => Ticket, () => TicketStudents)
   tickets: Ticket[];
 }
