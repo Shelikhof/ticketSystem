@@ -6,7 +6,7 @@ interface ICreateCertificate {
 }
 
 @Table({ tableName: "certificates", createdAt: false, updatedAt: false })
-export class Certificate extends Model {
+export class Certificate extends Model<Certificate, ICreateCertificate> {
   @Column({
     type: DataType.UUID,
     primaryKey: true,

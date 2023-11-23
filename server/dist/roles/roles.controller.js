@@ -26,6 +26,15 @@ let RolesController = class RolesController {
     getAll() {
         return this.roleService.getAll();
     }
+    getById(roleId) {
+        return this.roleService.getById(roleId);
+    }
+    delete(roleId) {
+        return this.roleService.deleteById(roleId);
+    }
+    edit(roleId, dto) {
+        return this.roleService.editById(roleId, dto);
+    }
 };
 exports.RolesController = RolesController;
 __decorate([
@@ -41,6 +50,28 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "getAll", null);
+__decorate([
+    (0, common_1.Get)(":roleId"),
+    __param(0, (0, common_1.Param)("roleId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], RolesController.prototype, "getById", null);
+__decorate([
+    (0, common_1.Delete)(":roleId"),
+    __param(0, (0, common_1.Param)("roleId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], RolesController.prototype, "delete", null);
+__decorate([
+    (0, common_1.Put)(":roleId"),
+    __param(0, (0, common_1.Param)("roleId")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, createRole_dto_1.CreateRoleDto]),
+    __metadata("design:returntype", void 0)
+], RolesController.prototype, "edit", null);
 exports.RolesController = RolesController = __decorate([
     (0, common_1.Controller)("roles"),
     __metadata("design:paramtypes", [roles_service_1.RolesService])

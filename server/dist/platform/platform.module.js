@@ -10,13 +10,16 @@ exports.PlatformModule = void 0;
 const common_1 = require("@nestjs/common");
 const platform_controller_1 = require("./platform.controller");
 const platform_service_1 = require("./platform.service");
+const sequelize_1 = require("@nestjs/sequelize");
+const platform_model_1 = require("./platform.model");
 let PlatformModule = class PlatformModule {
 };
 exports.PlatformModule = PlatformModule;
 exports.PlatformModule = PlatformModule = __decorate([
     (0, common_1.Module)({
         controllers: [platform_controller_1.PlatformController],
-        providers: [platform_service_1.PlatformService]
+        providers: [platform_service_1.PlatformService],
+        imports: [sequelize_1.SequelizeModule.forFeature([platform_model_1.Platform])],
     })
 ], PlatformModule);
 //# sourceMappingURL=platform.module.js.map

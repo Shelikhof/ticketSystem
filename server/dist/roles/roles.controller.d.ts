@@ -5,4 +5,7 @@ export declare class RolesController {
     constructor(roleService: RolesService);
     create(dto: CreateRoleDto): Promise<import("./roles.model").Role>;
     getAll(): Promise<import("./roles.model").Role[]>;
+    getById(roleId: string): Promise<import("./roles.model").Role>;
+    delete(roleId: string): Promise<import("./roles.model").Role>;
+    edit(roleId: string, dto: CreateRoleDto): Promise<import("./roles.model").Role>;
 }

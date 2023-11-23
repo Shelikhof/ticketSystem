@@ -20,7 +20,7 @@ export class UserService {
   async getAllUsersByRole(roleTitle: string) {
     const role = await Role.findOne({ where: { title: roleTitle } });
     if (!role) {
-      throw new ValidationErrorException("Role doesnt exist");
+      throw new ValidationErrorException("Роль не найдена");
     }
     const users = await User.findAll({
       where: { roleId: role.id },

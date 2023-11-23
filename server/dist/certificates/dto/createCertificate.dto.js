@@ -9,14 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateRoleDto = void 0;
+exports.CreateCertificateDto = void 0;
 const class_validator_1 = require("class-validator");
-class CreateRoleDto {
+class CreateCertificateDto {
 }
-exports.CreateRoleDto = CreateRoleDto;
+exports.CreateCertificateDto = CreateCertificateDto;
 __decorate([
     (0, class_validator_1.Length)(3, 25, { message: "Длина должна быть от 3 до 25 символов" }),
     (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
     __metadata("design:type", String)
-], CreateRoleDto.prototype, "title", void 0);
-//# sourceMappingURL=createRole.dto.js.map
+], CreateCertificateDto.prototype, "title", void 0);
+//# sourceMappingURL=createCertificate.dto.js.map

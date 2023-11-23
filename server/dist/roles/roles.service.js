@@ -16,21 +16,50 @@ exports.RolesService = void 0;
 const common_1 = require("@nestjs/common");
 const roles_model_1 = require("./roles.model");
 const sequelize_1 = require("@nestjs/sequelize");
+const ValidationErrorException_1 = require("../utils/ValidationErrorException");
 let RolesService = class RolesService {
     constructor(roleRepository) {
         this.roleRepository = roleRepository;
     }
     async create(dto) {
+        const candidate = await this.roleRepository.findOne({
+            where: {
+                title: dto.title,
+            },
+        });
+        if (candidate) {
+            throw new ValidationErrorException_1.ValidationErrorException("Роль уже существует");
+        }
         const role = await this.roleRepository.create(dto);
-        return role;
-    }
-    async getById(id) {
-        const role = await this.roleRepository.findByPk(id);
         return role;
     }
     async getAll() {
         const roles = await this.roleRepository.findAll();
         return roles;
+    }
+    async getById(id) {
+        const role = await this.roleRepository.findByPk(id);
+        if (!role) {
+            throw new ValidationErrorException_1.ValidationErrorException("Роль не найдена");
+        }
+        return role;
+    }
+    async deleteById(id) {
+        const role = await this.getById(id);
+        if (!role) {
+            throw new ValidationErrorException_1.ValidationErrorException("Роль не найдена");
+        }
+        (await role).destroy();
+        return role;
+    }
+    async editById(id, dto) {
+        const role = await this.getById(id);
+        if (!role) {
+            throw new ValidationErrorException_1.ValidationErrorException("Роль не найдена");
+        }
+        await this.roleRepository.update(dto, { where: { id: id } });
+        const updateRole = await this.getById(id);
+        return updateRole;
     }
 };
 exports.RolesService = RolesService;

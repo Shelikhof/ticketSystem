@@ -30,7 +30,7 @@ let UserService = class UserService {
     async getAllUsersByRole(roleTitle) {
         const role = await roles_model_1.Role.findOne({ where: { title: roleTitle } });
         if (!role) {
-            throw new ValidationErrorException_1.ValidationErrorException("Role doesnt exist");
+            throw new ValidationErrorException_1.ValidationErrorException("Роль не найдена");
         }
         const users = await user_model_1.User.findAll({
             where: { roleId: role.id },
