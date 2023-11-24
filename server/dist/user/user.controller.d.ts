@@ -3,10 +3,21 @@ import { UserService } from "./user.service";
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
-    create(userDto: CreateUserDto): Promise<import("./user.model").User>;
-    getAll(): Promise<import("./user.model").User[]>;
-    getAllByRole(role: string): Promise<{
-        role: string;
+    getAll(query: any): Promise<import("./user.model").User[]> | Promise<{
+        count: number;
+        page: number;
+        limit: number;
         users: import("./user.model").User[];
+    }>;
+    getById(userId: string): Promise<import("./user.model").User>;
+    edit(userId: string, dto: CreateUserDto): Promise<{
+        user: {
+            id: string;
+        };
+    }>;
+    delete(userId: string): Promise<{
+        user: {
+            id: string;
+        };
     }>;
 }

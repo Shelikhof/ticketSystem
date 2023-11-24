@@ -6,19 +6,24 @@ import * as bcrypt from "bcryptjs";
 import { User } from "src/user/user.model";
 import { RolesService } from "src/roles/roles.service";
 import { Role } from "src/roles/roles.model";
+import { LoginDto } from "./dto/login.dto";
+import { PlatformService } from "src/platform/platform.service";
+import { Platform } from "src/platform/platform.model";
 
 @Injectable()
 export class AuthService {
   constructor(
+    private platformService: PlatformService,
     private userService: UserService,
     private rolesService: RolesService,
     private jwtService: JwtService
   ) {}
 
-  async login(userDto: CreateUserDto) {
+  async login(userDto: LoginDto) {
     const user = await this.validateUser(userDto);
     const role = await this.rolesService.getById(user.roleId);
-    return this.generateToken(user, role);
+    const platform = await this.platformService.getById(user.platformId);
+    return this.generateToken(user, role, platform);
   }
 
   async registration(userDto: CreateUserDto) {
@@ -28,18 +33,17 @@ export class AuthService {
     }
     const hashPassword = await bcrypt.hash(userDto.password, Number(process.env.SALT));
     const user = await this.userService.createUser({ ...userDto, password: hashPassword });
-    const role = await this.rolesService.getById(user.roleId);
-    return this.generateToken(user, role);
+    return { user: { id: user.id } };
   }
 
-  async generateToken(user: User, role: Role) {
-    const payload = { email: user.login, id: user.id, role: role.title };
+  async generateToken(user: User, role: Role, platform: Platform) {
+    const payload = { login: user.login, id: user.id, role: { id: role.id, title: role.title }, platform: { id: platform.id, title: platform.title } };
     return {
       token: this.jwtService.sign(payload),
     };
   }
 
-  async validateUser(userDto: CreateUserDto) {
+  async validateUser(userDto: LoginDto) {
     const user = await this.userService.getUserByLogin(userDto.login);
     if (!user) {
       throw new HttpException("Некорректные данные", HttpStatus.BAD_REQUEST);

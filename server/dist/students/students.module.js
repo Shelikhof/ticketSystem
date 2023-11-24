@@ -10,6 +10,9 @@ exports.StudentsModule = void 0;
 const common_1 = require("@nestjs/common");
 const students_service_1 = require("./students.service");
 const students_controller_1 = require("./students.controller");
+const sequelize_1 = require("@nestjs/sequelize");
+const student_model_1 = require("./student.model");
+const platform_model_1 = require("../platform/platform.model");
 let StudentsModule = class StudentsModule {
 };
 exports.StudentsModule = StudentsModule;
@@ -17,6 +20,7 @@ exports.StudentsModule = StudentsModule = __decorate([
     (0, common_1.Module)({
         providers: [students_service_1.StudentsService],
         controllers: [students_controller_1.StudentsController],
+        imports: [sequelize_1.SequelizeModule.forFeature([student_model_1.Student, platform_model_1.Platform])],
     })
 ], StudentsModule);
 //# sourceMappingURL=students.module.js.map

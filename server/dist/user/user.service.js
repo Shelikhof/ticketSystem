@@ -18,37 +18,92 @@ const user_model_1 = require("./user.model");
 const sequelize_1 = require("@nestjs/sequelize");
 const roles_model_1 = require("../roles/roles.model");
 const ValidationErrorException_1 = require("../utils/ValidationErrorException");
+const platform_model_1 = require("../platform/platform.model");
+const bcrypt = require("bcryptjs");
+const sequelize_2 = require("sequelize");
 let UserService = class UserService {
-    constructor(userRepository, roleRepository) {
+    constructor(userRepository, roleRepository, platformRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.platformRepository = platformRepository;
     }
     async createUser(dto) {
-        const user = await this.userRepository.create(dto);
-        return user;
-    }
-    async getAllUsersByRole(roleTitle) {
-        const role = await roles_model_1.Role.findOne({ where: { title: roleTitle } });
+        const role = await this.roleRepository.findByPk(dto.roleId);
         if (!role) {
-            throw new ValidationErrorException_1.ValidationErrorException("Роль не найдена");
+            throw new ValidationErrorException_1.ValidationErrorException("Роль не существует");
         }
-        const users = await user_model_1.User.findAll({
-            where: { roleId: role.id },
-            attributes: ["id", "login"],
-        });
-        const result = {
-            role: role.title,
-            users: users,
-        };
-        return result;
+        const platform = await this.platformRepository.findByPk(dto.platformId);
+        if (!platform) {
+            throw new ValidationErrorException_1.ValidationErrorException("Площадки не существует");
+        }
+        const fullName = `${dto.firstName} ${dto.lastName} ${dto.surName || ""}`.trim();
+        const user = await this.userRepository.create({ ...dto, fullName });
+        return user;
     }
     async getUserByLogin(login) {
-        const user = await user_model_1.User.findOne({ where: { login } });
+        const user = await this.userRepository.findOne({ where: { login } });
         return user;
     }
-    async getAllUsers() {
-        const users = await this.userRepository.findAll();
+    async getById(id) {
+        const user = await this.userRepository.findOne({
+            where: { id },
+            include: [
+                { model: roles_model_1.Role, as: "role" },
+                { model: platform_model_1.Platform, as: "platform" },
+            ],
+            attributes: ["id", "login", "firstName", "lastName", "surName", "fullName", "telNum"],
+        });
+        if (!user) {
+            throw new ValidationErrorException_1.ValidationErrorException("Пользователь не найден");
+        }
+        return user;
+    }
+    async getAllBySearchAndRole(searchValue, roleId, page, limit) {
+        const { count, rows } = await this.userRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            where: {
+                roleId: roleId,
+                fullName: {
+                    [sequelize_2.Op.iLike]: `%${searchValue}%`,
+                },
+            },
+            attributes: ["id", "firstName", "lastName", "surName", "fullName"],
+        });
+        return { searchValue, count, page, limit, users: rows };
+    }
+    async getAllByRoleAndPlatform(roleId, platformId, page, limit) {
+        const { count, rows } = await this.userRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            where: {
+                roleId: roleId,
+                platformId: platformId,
+            },
+            attributes: ["id", "firstName", "lastName", "surName", "fullName"],
+        });
+        return { count, page, limit, users: rows };
+    }
+    async getAll() {
+        const users = await this.userRepository.findAll({});
         return users;
+    }
+    async edit(id, dto) {
+        const user = await this.userRepository.findByPk(id);
+        if (!user) {
+            throw new ValidationErrorException_1.ValidationErrorException("Пользователь не найден");
+        }
+        const hashPassword = await bcrypt.hash(dto.password, Number(process.env.SALT));
+        await this.userRepository.update({ ...dto, password: hashPassword }, { where: { id: id } });
+        return { user: { id } };
+    }
+    async delete(id) {
+        const user = await this.userRepository.findByPk(id);
+        if (!user) {
+            throw new ValidationErrorException_1.ValidationErrorException("Пользователь не найден");
+        }
+        user.destroy();
+        return { user: { id } };
     }
 };
 exports.UserService = UserService;
@@ -56,6 +111,7 @@ exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, sequelize_1.InjectModel)(user_model_1.User)),
     __param(1, (0, sequelize_1.InjectModel)(roles_model_1.Role)),
-    __metadata("design:paramtypes", [Object, Object])
+    __param(2, (0, sequelize_1.InjectModel)(platform_model_1.Platform)),
+    __metadata("design:paramtypes", [Object, Object, Object])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

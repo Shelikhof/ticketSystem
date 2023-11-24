@@ -15,8 +15,10 @@ const jwt_1 = require("@nestjs/jwt");
 const user_service_1 = require("../user/user.service");
 const bcrypt = require("bcryptjs");
 const roles_service_1 = require("../roles/roles.service");
+const platform_service_1 = require("../platform/platform.service");
 let AuthService = class AuthService {
-    constructor(userService, rolesService, jwtService) {
+    constructor(platformService, userService, rolesService, jwtService) {
+        this.platformService = platformService;
         this.userService = userService;
         this.rolesService = rolesService;
         this.jwtService = jwtService;
@@ -24,7 +26,8 @@ let AuthService = class AuthService {
     async login(userDto) {
         const user = await this.validateUser(userDto);
         const role = await this.rolesService.getById(user.roleId);
-        return this.generateToken(user, role);
+        const platform = await this.platformService.getById(user.platformId);
+        return this.generateToken(user, role, platform);
     }
     async registration(userDto) {
         const candidate = await this.userService.getUserByLogin(userDto.login);
@@ -33,11 +36,10 @@ let AuthService = class AuthService {
         }
         const hashPassword = await bcrypt.hash(userDto.password, Number(process.env.SALT));
         const user = await this.userService.createUser({ ...userDto, password: hashPassword });
-        const role = await this.rolesService.getById(user.roleId);
-        return this.generateToken(user, role);
+        return { user: { id: user.id } };
     }
-    async generateToken(user, role) {
-        const payload = { email: user.login, id: user.id, role: role.title };
+    async generateToken(user, role, platform) {
+        const payload = { login: user.login, id: user.id, role: { id: role.id, title: role.title }, platform: { id: platform.id, title: platform.title } };
         return {
             token: this.jwtService.sign(payload),
         };
@@ -57,7 +59,8 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_service_1.UserService,
+    __metadata("design:paramtypes", [platform_service_1.PlatformService,
+        user_service_1.UserService,
         roles_service_1.RolesService,
         jwt_1.JwtService])
 ], AuthService);

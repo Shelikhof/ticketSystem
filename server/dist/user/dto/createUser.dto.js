@@ -17,13 +17,31 @@ exports.CreateUserDto = CreateUserDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
     __metadata("design:type", String)
+], CreateUserDto.prototype, "firstName", void 0);
+__decorate([
+    (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "lastName", void 0);
+__decorate([
+    (0, class_validator_1.Length)(10, 10, { message: "Длина должна быть 10 символов" }),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "telNum", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(4, { message: "Должно быть формата UUID" }),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "platformId", void 0);
+__decorate([
+    (0, class_validator_1.Length)(3, 25, { message: "Длина должна быть от 3 до 10 символов" }),
+    (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
+    __metadata("design:type", String)
 ], CreateUserDto.prototype, "login", void 0);
 __decorate([
+    (0, class_validator_1.Length)(3, 25, { message: "Длина должна быть от 3 до 10 символов" }),
     (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
-    (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
+    (0, class_validator_1.IsUUID)(4, { message: "Должно быть формата UUID" }),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "role", void 0);
+], CreateUserDto.prototype, "roleId", void 0);
 //# sourceMappingURL=createUser.dto.js.map

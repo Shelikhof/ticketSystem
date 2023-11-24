@@ -8,5 +8,6 @@ import { Platform } from "./platform.model";
   controllers: [PlatformController],
   providers: [PlatformService],
   imports: [SequelizeModule.forFeature([Platform])],
+  exports: [PlatformService],
 })
 export class PlatformModule {}

@@ -65,6 +65,13 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false,
+    }),
+    __metadata("design:type", String)
+], User.prototype, "fullName", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
     }),
     __metadata("design:type", String)
 ], User.prototype, "telNum", void 0);
@@ -93,7 +100,7 @@ __decorate([
     __metadata("design:type", roles_model_1.Role)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => groups_model_1.Group, "curatorId"),
+    (0, sequelize_typescript_1.HasMany)(() => groups_model_1.Group, { onDelete: "NO ACTION", as: "curatorId" }),
     __metadata("design:type", Array)
 ], User.prototype, "groups", void 0);
 __decorate([

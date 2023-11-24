@@ -60,7 +60,7 @@ __decorate([
     __metadata("design:type", platform_model_1.Platform)
 ], Group.prototype, "platform", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => student_model_1.Student),
+    (0, sequelize_typescript_1.HasMany)(() => student_model_1.Student, { onDelete: "NO ACTION" }),
     __metadata("design:type", Array)
 ], Group.prototype, "students", void 0);
 __decorate([

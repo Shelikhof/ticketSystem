@@ -8,6 +8,7 @@ interface ICreateStudent {
   firstName: string;
   lastName: string;
   surName: string;
+  fullName: string;
   birthDate: Date;
   gender: string;
   groupId: string;
@@ -40,6 +41,12 @@ export class Student extends Model<Student, ICreateStudent> {
     type: DataType.STRING,
   })
   surName: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  fullName: string;
 
   @Column({
     type: DataType.DATE,

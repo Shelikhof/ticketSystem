@@ -8,6 +8,7 @@ interface ICreateUser {
   firstName: string;
   lastName: string;
   surName: string;
+  fullName: string;
   telNum: string;
   platformId: string;
   login: string;
@@ -57,6 +58,12 @@ export class User extends Model<User, ICreateUser> {
 
   @Column({
     type: DataType.STRING,
+    allowNull: false,
+  })
+  fullName: string;
+
+  @Column({
+    type: DataType.STRING,
   })
   telNum: string;
 
@@ -80,7 +87,7 @@ export class User extends Model<User, ICreateUser> {
   @BelongsTo(() => Role)
   role: Role;
 
-  @HasMany(() => Group, "curatorId")
+  @HasMany(() => Group, { onDelete: "NO ACTION", as: "curatorId" })
   groups: Group[];
 
   @HasMany(() => Ticket, "curatorId")

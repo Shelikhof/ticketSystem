@@ -9,13 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EditRoleDto = void 0;
+exports.CreateGroupDto = void 0;
 const class_validator_1 = require("class-validator");
-class EditRoleDto {
+class CreateGroupDto {
 }
-exports.EditRoleDto = EditRoleDto;
+exports.CreateGroupDto = CreateGroupDto;
 __decorate([
     (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
     __metadata("design:type", String)
-], EditRoleDto.prototype, "title", void 0);
-//# sourceMappingURL=editRole.dto.js.map
+], CreateGroupDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(4, { message: "Должно быть формата UUID" }),
+    __metadata("design:type", String)
+], CreateGroupDto.prototype, "platformId", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(4, { message: "Должно быть формата UUID" }),
+    __metadata("design:type", String)
+], CreateGroupDto.prototype, "curatorId", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)({ message: "Должно быть массивом" }),
+    __metadata("design:type", Array)
+], CreateGroupDto.prototype, "studentsId", void 0);
+//# sourceMappingURL=createGroup.dto.js.map

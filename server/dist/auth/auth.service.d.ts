@@ -4,19 +4,25 @@ import { UserService } from "src/user/user.service";
 import { User } from "src/user/user.model";
 import { RolesService } from "src/roles/roles.service";
 import { Role } from "src/roles/roles.model";
+import { LoginDto } from "./dto/login.dto";
+import { PlatformService } from "src/platform/platform.service";
+import { Platform } from "src/platform/platform.model";
 export declare class AuthService {
+    private platformService;
     private userService;
     private rolesService;
     private jwtService;
-    constructor(userService: UserService, rolesService: RolesService, jwtService: JwtService);
-    login(userDto: CreateUserDto): Promise<{
+    constructor(platformService: PlatformService, userService: UserService, rolesService: RolesService, jwtService: JwtService);
+    login(userDto: LoginDto): Promise<{
         token: string;
     }>;
     registration(userDto: CreateUserDto): Promise<{
+        user: {
+            id: string;
+        };
+    }>;
+    generateToken(user: User, role: Role, platform: Platform): Promise<{
         token: string;
     }>;
-    generateToken(user: User, role: Role): Promise<{
-        token: string;
-    }>;
-    validateUser(userDto: CreateUserDto): Promise<User>;
+    validateUser(userDto: LoginDto): Promise<User>;
 }

@@ -58,8 +58,8 @@ let PlatformService = class PlatformService {
             throw new ValidationErrorException_1.ValidationErrorException("Платформа не найдена");
         }
         await this.platformRepository.update(dto, { where: { id: id } });
-        const updatePlatform = await this.getById(id);
-        return updatePlatform;
+        const updatedPlatform = await this.getById(id);
+        return updatedPlatform;
     }
 };
 exports.PlatformService = PlatformService;

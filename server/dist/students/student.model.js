@@ -49,6 +49,13 @@ __decorate([
 ], Student.prototype, "surName", void 0);
 __decorate([
     (0, sequelize_typescript_1.Column)({
+        type: sequelize_typescript_1.DataType.STRING,
+        allowNull: false,
+    }),
+    __metadata("design:type", String)
+], Student.prototype, "fullName", void 0);
+__decorate([
+    (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.DATE,
         allowNull: false,
     }),

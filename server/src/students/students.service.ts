@@ -1,4 +1,77 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/sequelize";
+import { Student } from "./student.model";
+import { CreateStudentDto } from "./dto/createStudent.dto";
+import { Platform } from "src/platform/platform.model";
+import { ValidationErrorException } from "src/utils/ValidationErrorException";
+import { Group } from "src/groups/groups.model";
 
 @Injectable()
-export class StudentsService {}
+export class StudentsService {
+  constructor(
+    @InjectModel(Student) private studentRepository: typeof Student,
+    @InjectModel(Platform) private platformRepository: typeof Platform
+  ) {}
+
+  //create students
+  async create(dto: CreateStudentDto) {
+    const platform = await this.platformRepository.findByPk(dto.platformId);
+    if (!platform) {
+      throw new ValidationErrorException("Площадки не существует");
+    }
+    const fullName = `${dto.firstName} ${dto.lastName} ${dto.surName || ""}`.trim();
+    const student = await this.studentRepository.create({ ...dto, fullName });
+    return { student: { id: student.id } };
+  }
+
+  //edit student by id
+  async edit(id: string, dto: CreateStudentDto) {
+    const student = await this.studentRepository.findByPk(id);
+    if (!student) {
+      throw new ValidationErrorException("Студент не найден");
+    }
+    await this.studentRepository.update(dto, { where: { id: id } });
+    return { student: { id: student.id } };
+  }
+
+  //get student by id
+  async getById(id: string) {
+    const student = await this.studentRepository.findOne({
+      where: { id },
+      include: [
+        {
+          model: Group,
+          as: "group",
+          attributes: ["id", "name"],
+        },
+      ],
+    });
+    if (!student) {
+      throw new ValidationErrorException("Студент не найден");
+    }
+    return student;
+  }
+
+  //delete student by id
+  async delete(id: string) {
+    const student = await this.studentRepository.findByPk(id);
+    if (!student) {
+      throw new ValidationErrorException("Студент не найден");
+    }
+    student.destroy();
+    return { student: { id } };
+  }
+
+  //get all students
+  async getAll() {
+    const students = await this.studentRepository.findAll({
+      include: [
+        {
+          model: Group,
+          as: "group",
+        },
+      ],
+    });
+    return students;
+  }
+}

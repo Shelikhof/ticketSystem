@@ -6,6 +6,7 @@ interface ICreateStudent {
     firstName: string;
     lastName: string;
     surName: string;
+    fullName: string;
     birthDate: Date;
     gender: string;
     groupId: string;
@@ -16,6 +17,7 @@ export declare class Student extends Model<Student, ICreateStudent> {
     firstName: string;
     lastName: string;
     surName: string;
+    fullName: string;
     birthDate: Date;
     gender: string;
     registrNum: string;

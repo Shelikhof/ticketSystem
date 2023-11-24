@@ -47,7 +47,7 @@ export class Group extends Model<Group, ICreateGroup> {
   @BelongsTo(() => Platform)
   platform: Platform;
 
-  @HasMany(() => Student)
+  @HasMany(() => Student, { onDelete: "NO ACTION" })
   students: Student[];
 
   @HasMany(() => Ticket)

@@ -14,6 +14,7 @@ const user_module_1 = require("../user/user.module");
 const jwt_1 = require("@nestjs/jwt");
 const roles_module_1 = require("../roles/roles.module");
 const config_1 = require("@nestjs/config");
+const platform_module_1 = require("../platform/platform.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -23,6 +24,7 @@ exports.AuthModule = AuthModule = __decorate([
         controllers: [auth_controller_1.AuthController],
         imports: [
             roles_module_1.RolesModule,
+            platform_module_1.PlatformModule,
             (0, common_1.forwardRef)(() => user_module_1.UserModule),
             config_1.ConfigModule.forRoot({
                 envFilePath: `.${process.env.NODE_ENV}.env`,

@@ -20,6 +20,7 @@ exports.PlatformModule = PlatformModule = __decorate([
         controllers: [platform_controller_1.PlatformController],
         providers: [platform_service_1.PlatformService],
         imports: [sequelize_1.SequelizeModule.forFeature([platform_model_1.Platform])],
+        exports: [platform_service_1.PlatformService],
     })
 ], PlatformModule);
 //# sourceMappingURL=platform.module.js.map

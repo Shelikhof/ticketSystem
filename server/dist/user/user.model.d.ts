@@ -7,6 +7,7 @@ interface ICreateUser {
     firstName: string;
     lastName: string;
     surName: string;
+    fullName: string;
     telNum: string;
     platformId: string;
     login: string;
@@ -20,6 +21,7 @@ export declare class User extends Model<User, ICreateUser> {
     firstName: string;
     lastName: string;
     surName: string;
+    fullName: string;
     telNum: string;
     platformId: string;
     platform: Platform;
