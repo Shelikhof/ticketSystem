@@ -1,0 +1,55 @@
+.input-container {
+  position: relative;
+}
+
+.input {
+  padding: 30px 20px 12px 20px;
+  background: var(--light-blue-color);
+  border-radius: 15px;
+  height: 60px;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.input-error {
+  padding: 30px 20px 12px 20px;
+  background: var(--pink-color);
+  border-radius: 15px;
+  height: 60px;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.input:focus {
+  border: 1px solid var(--black-color);
+  background: var(--white-color);
+}
+
+.label {
+  position: absolute;
+  color: var(--gray-color);
+  top: 20px;
+  left: 20px;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.input:focus + .label,
+.input-error:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  font-size: 12px;
+  top: 12px;
+}
+
+.input[type="password"] {
+  font: small-caps;
+  font-size: 20px;
+}
+
+.error-message {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  font-size: 12px;
+  color: var(--red-color);
+}
