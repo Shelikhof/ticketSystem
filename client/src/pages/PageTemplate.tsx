@@ -1,11 +1,13 @@
 import React from "react";
 import Footer from "../components/Footer/Footer";
+import Header from "../components/Header/Header";
 
 interface IProp extends React.HTMLProps<HTMLDivElement> {}
 
 const PageTemplate: React.FC<IProp> = ({ children }) => {
   return (
     <>
+      <Header />
       <div id="content">{children}</div>
       <Footer />
     </>

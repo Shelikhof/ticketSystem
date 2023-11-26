@@ -1,0 +1,45 @@
+.header {
+  background: var(--white-color);
+  padding: 10px 0;
+  position: relative;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-side img {
+  height: 60px;
+}
+
+.left-side {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.left-side span {
+  color: var(--red-color);
+}
+
+.header-content nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.open-menu-btn {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .header-content nav {
+    display: none;
+  }
+
+  .open-menu-btn {
+    display: block;
+  }
+}

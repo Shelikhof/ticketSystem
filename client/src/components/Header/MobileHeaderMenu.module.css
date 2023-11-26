@@ -1,0 +1,39 @@
+.mobile-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background: var(--blue-color);
+  color: var(--white-color);
+  padding: 25px;
+  width: 320px;
+  transform: translateX(100%);
+  transition: all 0.3s;
+}
+
+.mobile-header--active {
+  transform: translateX(0);
+}
+
+.mobile-header .menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-header .create-ticket-btn button {
+  background: var(--dark-blue-color);
+  width: 100%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+}
+
+@media (max-width: 500px) {
+  .mobile-header {
+    width: 100%;
+  }
+}
