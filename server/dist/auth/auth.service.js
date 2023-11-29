@@ -27,7 +27,17 @@ let AuthService = class AuthService {
         const user = await this.validateUser(userDto);
         const role = await this.rolesService.getById(user.roleId);
         const platform = await this.platformService.getById(user.platformId);
-        return this.generateToken(user, role, platform);
+        const token = await this.generateToken(user, role, platform);
+        return {
+            token,
+            user: {
+                name: {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                },
+                role: role.title,
+            },
+        };
     }
     async registration(userDto) {
         const candidate = await this.userService.getUserByLogin(userDto.login);
@@ -40,9 +50,7 @@ let AuthService = class AuthService {
     }
     async generateToken(user, role, platform) {
         const payload = { login: user.login, id: user.id, role: { id: role.id, title: role.title }, platform: { id: platform.id, title: platform.title } };
-        return {
-            token: this.jwtService.sign(payload),
-        };
+        return this.jwtService.sign(payload);
     }
     async validateUser(userDto) {
         const user = await this.userService.getUserByLogin(userDto.login);
@@ -54,6 +62,28 @@ let AuthService = class AuthService {
             return user;
         }
         throw new common_1.HttpException("Некорректные данные", common_1.HttpStatus.BAD_REQUEST);
+    }
+    async validateToken(token) {
+        try {
+            const payload = await this.jwtService.verify(token);
+            const user = await this.userService.getById(payload.id);
+            const role = await this.rolesService.getById(payload.role.id);
+            const platform = await this.platformService.getById(payload.platform.id);
+            const newToken = await this.generateToken(user, role, platform);
+            return {
+                token: newToken,
+                user: {
+                    name: {
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                    },
+                    role: role.title,
+                },
+            };
+        }
+        catch (e) {
+            throw new common_1.HttpException("Токен невалидный", common_1.HttpStatus.UNAUTHORIZED);
+        }
     }
 };
 exports.AuthService = AuthService;

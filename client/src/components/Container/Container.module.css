@@ -4,14 +4,22 @@
   padding: 0 5px;
 }
 
+.small-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 5px;
+}
+
 @media (max-width: 1280px) {
-  .container {
+  .container,
+  .small-container {
     padding: 0 10px;
   }
 }
 
 @media (max-width: 500px) {
-  .container {
+  .container,
+  .small-container {
     padding: 0 5px;
   }
 }

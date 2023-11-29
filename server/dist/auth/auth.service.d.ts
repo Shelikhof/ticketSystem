@@ -15,14 +15,29 @@ export declare class AuthService {
     constructor(platformService: PlatformService, userService: UserService, rolesService: RolesService, jwtService: JwtService);
     login(userDto: LoginDto): Promise<{
         token: string;
+        user: {
+            name: {
+                firstName: string;
+                lastName: string;
+            };
+            role: string;
+        };
     }>;
     registration(userDto: CreateUserDto): Promise<{
         user: {
             id: string;
         };
     }>;
-    generateToken(user: User, role: Role, platform: Platform): Promise<{
-        token: string;
-    }>;
+    generateToken(user: User, role: Role, platform: Platform): Promise<string>;
     validateUser(userDto: LoginDto): Promise<User>;
+    validateToken(token: string): Promise<{
+        token: string;
+        user: {
+            name: {
+                firstName: string;
+                lastName: string;
+            };
+            role: string;
+        };
+    }>;
 }

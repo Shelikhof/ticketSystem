@@ -27,10 +27,13 @@ let AuthController = class AuthController {
     registration(userDto) {
         return this.authService.registration(userDto);
     }
+    validateToken(authorizationHeader) {
+        return this.authService.validateToken(authorizationHeader.split(" ")[1]);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Get)("/login"),
+    (0, common_1.Post)("/login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
@@ -43,6 +46,13 @@ __decorate([
     __metadata("design:paramtypes", [createUser_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "registration", null);
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Headers)("Authorization")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "validateToken", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
