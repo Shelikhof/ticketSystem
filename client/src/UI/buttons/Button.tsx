@@ -1,11 +1,14 @@
 import React from "react";
 import styles from "./Button.module.css";
 
-interface IProp extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface IProp extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  // isRed?: boolean;
+  btnStyle?: "red" | "gray" | "default";
+}
 
-const Button: React.FC<IProp> = ({ children, ...props }) => {
+const Button: React.FC<IProp> = ({ btnStyle = "default", children, ...props }) => {
   return (
-    <button {...props} className={styles["button"]}>
+    <button {...props} className={styles[`button-${btnStyle}`]}>
       {children}
     </button>
   );

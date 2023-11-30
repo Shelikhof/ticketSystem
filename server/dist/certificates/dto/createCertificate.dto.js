@@ -15,7 +15,7 @@ class CreateCertificateDto {
 }
 exports.CreateCertificateDto = CreateCertificateDto;
 __decorate([
-    (0, class_validator_1.Length)(3, 25, { message: "Длина должна быть от 3 до 25 символов" }),
+    (0, class_validator_1.Length)(3, 50, { message: "Длина должна быть от 3 до 50 символов" }),
     (0, class_validator_1.IsString)({ message: "Должно быть строкой" }),
     __metadata("design:type", String)
 ], CreateCertificateDto.prototype, "title", void 0);

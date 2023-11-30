@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Input } from "../UI";
+import ListItem from "../UI/ListItem";
 
 const DevPage = () => {
   return (
@@ -9,6 +10,7 @@ const DevPage = () => {
       <Button>Кнопка</Button>
       <hr />
       {/* <Input label="Пароль" /> */}
+      <ListItem link="/l" label="ad" />
     </div>
   );
 };

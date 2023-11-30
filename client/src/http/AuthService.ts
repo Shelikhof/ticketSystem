@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import $api from ".";
-import { IAuthResponse } from "../interfaces/response/IAuthResponse";
+import { IAuthResponse } from "./interfaces/IAuthResponse.interface";
 
 export default class AuthService {
   static async login(login: string, password: string): Promise<AxiosResponse<IAuthResponse>> {

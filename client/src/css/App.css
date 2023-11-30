@@ -7,4 +7,17 @@
 #content {
   flex: 1;
   background: var(--light-gray-color);
+  padding: 40px 0;
+}
+
+@media (max-width: 1000px) {
+  #content {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 500px) {
+  #content {
+    padding: 10px 0;
+  }
 }

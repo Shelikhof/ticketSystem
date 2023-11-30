@@ -1,0 +1,12 @@
+.content-container {
+  padding: 20px;
+  background: var(--white-color);
+  border-radius: 15px;
+}
+
+.content-container > *:nth-child(1) {
+  margin-bottom: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

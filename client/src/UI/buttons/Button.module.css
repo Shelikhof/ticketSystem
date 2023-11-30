@@ -1,4 +1,4 @@
-.button {
+.button-default {
   color: var(--white-color);
   padding: 15px;
   border-radius: 10px;
@@ -7,12 +7,40 @@
   transition: all 0.5s;
 }
 
-.button:hover {
+.button-default:hover {
   background: var(--dark-blue-color);
 }
 
-.button:disabled {
+.button-default:disabled,
+.button-red:disabled,
+.button-gray:disabled {
   background: var(--light-gray-color);
   color: var(--gray-color);
   cursor: auto;
+}
+
+.button-red {
+  color: var(--red-color);
+  padding: 15px;
+  border-radius: 10px;
+  background: var(--pink-color);
+  min-width: 100px;
+  transition: all 0.5s;
+}
+
+.button-red:hover {
+  background: var(--pink-dark-color);
+}
+
+.button-gray {
+  color: var(--white-color);
+  background: var(--gray-color);
+  padding: 15px;
+  border-radius: 10px;
+  min-width: 100px;
+  transition: all 0.5s;
+}
+
+.button-gray:hover {
+  background: var(--gray-dark-color);
 }

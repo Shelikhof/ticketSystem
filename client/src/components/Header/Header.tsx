@@ -35,7 +35,7 @@ const Header: React.FC = () => {
             <a href="#">Студенты</a>
             <a href="#">Группы</a>
             <Button>Создать заявку</Button>
-            <Button onClick={logOut} style={{ background: "var(--pink-color)", color: "var(--red-color)" }}>
+            <Button onClick={logOut} btnStyle="red">
               Выйти
             </Button>
           </nav>

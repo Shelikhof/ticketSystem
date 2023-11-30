@@ -14,13 +14,6 @@
   justify-content: center;
 }
 
-.error {
-  background: var(--pink-color);
-  color: var(--red-color);
-  padding: 15px;
-  border-radius: 10px;
-}
-
 @media (max-width: 500px) {
   .loginForm-wrapper {
     width: 100%;

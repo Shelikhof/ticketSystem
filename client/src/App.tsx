@@ -17,10 +17,10 @@ const App: React.FC = () => {
         dispatch(setUserInfo({ name: userData.data.user.name, role: userData.data.user.role }));
         localStorage.setItem("token", userData.data.token);
       } catch (error) {
-        navigate("/login");
+        // navigate("/login");
       }
     } else {
-      navigate("/login");
+      // navigate("/login");
     }
   };
 

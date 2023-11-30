@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store/hook";
 import AuthService from "../../http/AuthService";
 import { setUserInfo } from "../../store/slices/authSlice";
+import ErrorAlert from "../../UI/forms/Error";
 
 //interface for login form fields
 export interface ILoginFields {
@@ -33,7 +34,7 @@ const LoginForm: React.FC = () => {
       const userData = await AuthService.login(data.login, data.password);
       dispatch(setUserInfo({ name: userData.data.user.name, role: userData.data.user.role }));
       localStorage.setItem("token", userData.data.token);
-      navigate("/tickets");
+      navigate("/ticket");
     } catch (error) {
       setError("Неверный логин или пароль");
     }
@@ -44,7 +45,7 @@ const LoginForm: React.FC = () => {
       <div className={styles["loginForm-inputs"]}>
         <Input register={register} name="login" label="Логин" errors={errors} validationRules={{ required: "Поле обязательное" }} type="text" />
         <Input register={register} name="password" label="Пароль" errors={errors} validationRules={{ required: "Поле обязательное" }} type="password" />
-        {error && <p className={styles["error"]}>{error}</p>}
+        {error && <ErrorAlert error={error} />}
       </div>
       <div className={styles["loginForm-submit"]}>
         <Button style={{ width: "240px" }} type="submit">

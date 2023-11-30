@@ -1,0 +1,21 @@
+.list-item {
+  background: var(--light-blue-color);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.list-item img {
+  transition: all 0.5s;
+}
+
+.list-item:hover img {
+  transform: translateX(5px);
+}
+
+.list-item:hover {
+  background: var(--light-blue-3-color);
+}
