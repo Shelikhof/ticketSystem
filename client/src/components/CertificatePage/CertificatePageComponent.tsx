@@ -14,7 +14,6 @@ const CertificatePageComponent = () => {
   const fetchData = async () => {
     const data = await CertificateService.getCertificates();
     setCertificates(data.data);
-    console.log(certificates);
   };
 
   useEffect(() => {

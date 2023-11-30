@@ -22,4 +22,10 @@ export declare class StudentsService {
         };
     }>;
     getAll(): Promise<Student[]>;
+    getAllWithLimit(page: number, limit: number): Promise<{
+        count: number;
+        page: number;
+        limit: number;
+        students: Student[];
+    }>;
 }

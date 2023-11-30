@@ -40,7 +40,7 @@ const CertificateForm: React.FC<IProp> = ({ certificate }) => {
       } else {
         await CertificateService.createCertificate(data.title);
       }
-      navigate("/certificate");
+      navigate("/certificates");
     } catch (e) {
       const error = e as AxiosError<IError>;
       setError(error.response?.data?.message || "");
@@ -49,7 +49,7 @@ const CertificateForm: React.FC<IProp> = ({ certificate }) => {
   };
 
   const onDelete = (id: string) => {
-    return CertificateService.deleteCertificate(id).then(() => navigate("/certificate"));
+    return CertificateService.deleteCertificate(id).then(() => navigate("/certificates"));
   };
 
   return (
@@ -60,7 +60,7 @@ const CertificateForm: React.FC<IProp> = ({ certificate }) => {
       </div>
 
       <div className={styles["buttons"]}>
-        <Button btnStyle="gray" type="button" onClick={() => navigate("/certificate")}>
+        <Button btnStyle="gray" type="button" onClick={() => navigate("/certificates")}>
           Отмена
         </Button>
         {certificate && (

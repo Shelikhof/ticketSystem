@@ -74,4 +74,14 @@ export class StudentsService {
     });
     return students;
   }
+
+  //get all students with count limit
+  async getAllWithLimit(page: number, limit: number) {
+    const { count, rows } = await this.studentRepository.findAndCountAll({
+      limit: limit,
+      offset: (page - 1) * limit,
+      attributes: ["id", "fullName"],
+    });
+    return { count, page, limit, students: rows };
+  }
 }

@@ -1,4 +1,5 @@
 .mobile-header {
+  z-index: 999;
   position: fixed;
   top: 0;
   right: 0;

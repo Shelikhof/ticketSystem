@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ListItem.module.css";
 import { useNavigate } from "react-router-dom";
-import rightArrow from "../assets/icons/right-arrow.svg";
+import rightArrow from "../../assets/icons/right-arrow.svg";
 
 interface IProp {
   link: string;

@@ -76,6 +76,14 @@ let StudentsService = class StudentsService {
         });
         return students;
     }
+    async getAllWithLimit(page, limit) {
+        const { count, rows } = await this.studentRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            attributes: ["id", "fullName"],
+        });
+        return { count, page, limit, students: rows };
+    }
 };
 exports.StudentsService = StudentsService;
 exports.StudentsService = StudentsService = __decorate([

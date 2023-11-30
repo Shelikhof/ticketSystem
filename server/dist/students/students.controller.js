@@ -32,7 +32,10 @@ let StudentsController = class StudentsController {
     getById(studentId) {
         return this.studentsService.getById(studentId);
     }
-    getAll() {
+    getAll(query) {
+        if (query.page && query.limit) {
+            return this.studentsService.getAllWithLimit(query.page, query.limit);
+        }
         return this.studentsService.getAll();
     }
 };
@@ -68,8 +71,9 @@ __decorate([
 ], StudentsController.prototype, "getById", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], StudentsController.prototype, "getAll", null);
 exports.StudentsController = StudentsController = __decorate([

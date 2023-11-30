@@ -2,7 +2,7 @@ import React from "react";
 import { ICertificateItem } from "../../http/interfaces/ICertificatesRespones.interface";
 import styles from "./CertificateList.module.css";
 import ListItemSkeleton from "../../UI/skeletons/ListItemSkeleton";
-import ListItem from "../../UI/ListItem";
+import ListItem from "../../UI/list/ListItem";
 
 interface IProp {
   certificates: ICertificateItem[] | void;

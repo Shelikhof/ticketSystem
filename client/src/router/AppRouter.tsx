@@ -5,6 +5,7 @@ import CertificatePage from "../pages/certificates/CertificatePage";
 import SingleCertificatePage from "../pages/certificates/SingleCertificatePage";
 import AddCertificatePage from "../pages/certificates/AddCertificatePage";
 import NotFoundPage from "../pages/NotFoundPage";
+import StudentsPage from "../pages/students/StudentsPage";
 
 const AppRouter = () => {
   return (
@@ -12,9 +13,10 @@ const AppRouter = () => {
       <Route path="/dev" element={<DevPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/ticket" element={<TicketsListPage />} />
-      <Route path="/certificate" element={<CertificatePage />} />
-      <Route path="/certificate/:id" element={<SingleCertificatePage />} />
-      <Route path="/certificate/add" element={<AddCertificatePage />} />
+      <Route path="/certificates" element={<CertificatePage />} />
+      <Route path="/certificates/:id" element={<SingleCertificatePage />} />
+      <Route path="/certificates/add" element={<AddCertificatePage />} />
+      <Route path="/students" element={<StudentsPage />} />
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<Navigate to={"/404"} />} />
     </Routes>
