@@ -19,10 +19,10 @@ export declare class StudentsController {
         };
     }>;
     getById(studentId: string): Promise<import("./student.model").Student>;
-    getAll(query: any): Promise<import("./student.model").Student[]> | Promise<{
+    getAll(query: any): Promise<{
         count: number;
         page: number;
         limit: number;
         students: import("./student.model").Student[];
-    }>;
+    }> | Promise<import("./student.model").Student[]>;
 }

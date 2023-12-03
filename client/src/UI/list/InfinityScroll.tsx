@@ -2,13 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./InfinityScroll.module.css";
 
 interface IProp extends React.HTMLProps<HTMLDivElement> {
-  fetchData: (page: number, limit?: number) => void;
-  setPage: (page: number) => void;
-  page: number;
+  fetchData: () => void;
   isOver?: boolean;
 }
 
-const InfinityScroll: React.FC<IProp> = ({ children, fetchData, page, setPage, isOver = false }) => {
+const InfinityScroll: React.FC<IProp> = ({ children, fetchData, isOver = false }) => {
   const containerRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,8 +20,7 @@ const InfinityScroll: React.FC<IProp> = ({ children, fetchData, page, setPage, i
         setIsLoading(true);
 
         try {
-          setPage(page + 1);
-          await fetchData(page);
+          await fetchData();
         } catch (error) {
           console.log(error);
         } finally {

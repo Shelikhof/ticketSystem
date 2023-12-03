@@ -33,6 +33,9 @@ let StudentsController = class StudentsController {
         return this.studentsService.getById(studentId);
     }
     getAll(query) {
+        if (query.page && query.limit && query.q) {
+            return this.studentsService.getBySearch(query.page, query.limit, query.q);
+        }
         if (query.page && query.limit) {
             return this.studentsService.getAllWithLimit(query.page, query.limit);
         }

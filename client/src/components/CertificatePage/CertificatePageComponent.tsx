@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const CertificatePageComponent = () => {
   const navigate = useNavigate();
-  const [certificates, setCertificates] = useState<ICertificateItem[] | void>();
+  const [certificates, setCertificates] = useState<ICertificateItem[] | void>([]);
 
   const fetchData = async () => {
     const data = await CertificateService.getCertificates();

@@ -5,6 +5,7 @@ import { CreateStudentDto } from "./dto/createStudent.dto";
 import { Platform } from "src/platform/platform.model";
 import { ValidationErrorException } from "src/utils/ValidationErrorException";
 import { Group } from "src/groups/groups.model";
+import { Op } from "sequelize";
 
 @Injectable()
 export class StudentsService {
@@ -81,6 +82,21 @@ export class StudentsService {
       limit: limit,
       offset: (page - 1) * limit,
       attributes: ["id", "fullName"],
+    });
+    return { count, page, limit, students: rows };
+  }
+
+  //get students by search
+  async getBySearch(page: number, limit: number, searchValue: string) {
+    const { count, rows } = await this.studentRepository.findAndCountAll({
+      limit: limit,
+      offset: (page - 1) * limit,
+      attributes: ["id", "fullName"],
+      where: {
+        fullName: {
+          [Op.iLike]: `%${searchValue}%`,
+        },
+      },
     });
     return { count, page, limit, students: rows };
   }

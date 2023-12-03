@@ -9,7 +9,7 @@ interface IProp {
 }
 
 const CertificateList: React.FC<IProp> = ({ certificates }) => {
-  if (!certificates) {
+  if ((certificates!.length < 1 && certificates) || !certificates) {
     return (
       <div className={styles["list"]}>
         <ListItemSkeleton />

@@ -19,6 +19,7 @@ const student_model_1 = require("./student.model");
 const platform_model_1 = require("../platform/platform.model");
 const ValidationErrorException_1 = require("../utils/ValidationErrorException");
 const groups_model_1 = require("../groups/groups.model");
+const sequelize_2 = require("sequelize");
 let StudentsService = class StudentsService {
     constructor(studentRepository, platformRepository) {
         this.studentRepository = studentRepository;
@@ -81,6 +82,19 @@ let StudentsService = class StudentsService {
             limit: limit,
             offset: (page - 1) * limit,
             attributes: ["id", "fullName"],
+        });
+        return { count, page, limit, students: rows };
+    }
+    async getBySearch(page, limit, searchValue) {
+        const { count, rows } = await this.studentRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            attributes: ["id", "fullName"],
+            where: {
+                fullName: {
+                    [sequelize_2.Op.iLike]: `%${searchValue}%`,
+                },
+            },
         });
         return { count, page, limit, students: rows };
     }

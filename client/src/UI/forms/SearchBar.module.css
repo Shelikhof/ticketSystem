@@ -1,0 +1,52 @@
+.searchBar-container {
+  position: relative;
+  flex: 1;
+  /* max-width: 300px; */
+  grid: 1;
+}
+
+.input {
+  padding: 30px 20px 12px 20px;
+  background: var(--light-blue-color);
+  border-radius: 15px;
+  height: 60px;
+  transition: all 0.3s;
+  width: 100%;
+}
+
+.input:focus {
+  border: 1px solid var(--black-color);
+  background: var(--white-color);
+}
+
+.label {
+  position: absolute;
+  color: var(--gray-color);
+  top: 20px;
+  left: 20px;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  font-size: 12px;
+  top: 12px;
+}
+
+.button {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  transition: all 0.3s;
+  border-radius: 0 15px 15px 0;
+  width: 60px;
+  height: calc(100% - 2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  background: var(--light-blue-3-color);
+}

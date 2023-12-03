@@ -1,26 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InfinityScroll from "../../UI/list/InfinityScroll";
 import { IStudentItem } from "../../http/interfaces/IStudentsResponse.interface";
 import StudentService from "../../http/StudentsService";
 import styles from "./StudentsList.module.css";
 import ListItem from "../../UI/list/ListItem";
+import ListItemSkeleton from "../../UI/skeletons/ListItemSkeleton";
 
-const StudentsList = () => {
-  const LIMIT = 3;
-  const [students, setStudents] = useState<IStudentItem[]>([]);
-  const [page, setPage] = useState(1);
-  const [isOver, setIsOver] = useState(false);
+interface IProp {
+  students: IStudentItem[] | void;
+  fetchData: () => void;
+  isOver: boolean;
+}
 
-  const fetchData = async (page: number, limit = LIMIT) => {
-    const data = await StudentService.getStudents(limit, page);
-    if (data.data.count <= data.data.limit * data.data.page) {
-      setIsOver(true);
-    }
-    setStudents([...students, ...data.data.students]);
-  };
+const StudentsList: React.FC<IProp> = ({ students, fetchData, isOver }) => {
+  if (typeof students === "undefined") {
+    return (
+      <div className={styles["list"]}>
+        <ListItemSkeleton />
+        <ListItemSkeleton />
+        <ListItemSkeleton />
+        <ListItemSkeleton />
+      </div>
+    );
+  }
 
   return (
-    <InfinityScroll page={page} setPage={setPage} fetchData={fetchData} isOver={isOver}>
+    <InfinityScroll fetchData={fetchData} isOver={isOver}>
       <div className={styles["list"]}>
         {students.map((el) => (
           <ListItem label={el.fullName} link={el.id} key={el.id} />

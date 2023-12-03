@@ -33,6 +33,9 @@ export class StudentsController {
   //get all students
   @Get()
   getAll(@Query() query: any) {
+    if (query.page && query.limit && query.q) {
+      return this.studentsService.getBySearch(query.page, query.limit, query.q);
+    }
     if (query.page && query.limit) {
       return this.studentsService.getAllWithLimit(query.page, query.limit);
     }

@@ -28,4 +28,10 @@ export declare class StudentsService {
         limit: number;
         students: Student[];
     }>;
+    getBySearch(page: number, limit: number, searchValue: string): Promise<{
+        count: number;
+        page: number;
+        limit: number;
+        students: Student[];
+    }>;
 }
