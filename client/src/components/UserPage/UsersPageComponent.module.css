@@ -1,0 +1,9 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.roles-select {
+  width: 180px;
+}

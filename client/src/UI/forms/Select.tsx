@@ -12,9 +12,9 @@ interface IProp {
   data: dataItem[];
   setValue: (value: string) => void;
   label: string;
-  errors: FieldErrors;
+  errors?: FieldErrors;
   name: string;
-  clearErrors: UseFormClearErrors<any>;
+  clearErrors?: UseFormClearErrors<any>;
   defaultValue?: string;
 }
 
@@ -25,7 +25,9 @@ const Select: React.FC<IProp> = ({ data, setValue, label, errors, name, clearErr
 
   //handle click on select list
   const onClick = (el: dataItem) => {
-    clearErrors(name);
+    if (clearErrors) {
+      clearErrors(name);
+    }
     setValue(el.id);
     setOption(el);
     setIsOpen(false);
@@ -48,7 +50,11 @@ const Select: React.FC<IProp> = ({ data, setValue, label, errors, name, clearErr
     };
   }, []);
 
-  const inputClassName = errors[name] ? "select-error" : "select";
+  let inputClassName = "select";
+
+  if (errors) {
+    inputClassName = errors[name] ? "select-error" : "select";
+  }
 
   return (
     <div className={styles["option-container"]} ref={selectRef}>
@@ -68,7 +74,7 @@ const Select: React.FC<IProp> = ({ data, setValue, label, errors, name, clearErr
           ))}
         </div>
       )}
-      {errors[name] && <p className={styles["error-message"]}>{String(errors[name]?.message)}</p>}
+      {errors && errors[name] && <p className={styles["error-message"]}>{String(errors[name]?.message)}</p>}
     </div>
   );
 };

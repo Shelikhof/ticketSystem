@@ -1,7 +1,16 @@
 import React from "react";
+import PageTemplate from "../PageTemplate";
+import Container from "../../components/Container/Container";
+import UsersPageComponent from "../../components/UserPage/UsersPageComponent";
 
 const UsersPage = () => {
-  return <div>UsersPage</div>;
+  return (
+    <PageTemplate>
+      <Container isSmall>
+        <UsersPageComponent />
+      </Container>
+    </PageTemplate>
+  );
 };
 
 export default UsersPage;

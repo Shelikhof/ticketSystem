@@ -1,7 +1,7 @@
 .searchBar-container {
   position: relative;
   flex: 1;
-  grid: 1;
+  /* grid: 1; */
 }
 
 .input {

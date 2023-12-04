@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ContentContainer from "../Container/ContentContainer";
 import { Button } from "../../UI";
-import StudentsList from "./StudentsList";
 import { IStudentItem } from "../../http/interfaces/IStudentsResponse.interface";
 import SearchBar from "../../UI/forms/SearchBar";
 import StudentService from "../../http/StudentsService";
 import styles from "./StudentsPageComponent.module.css";
 import { useNavigate } from "react-router-dom";
+import TwoColumnsList from "../../UI/list/FullNameList";
 
 const StudentsPageComponent = () => {
   const LIMIT = 3;
@@ -43,7 +43,7 @@ const StudentsPageComponent = () => {
         <SearchBar setValue={setSearchValue} value={searchValue} onSearch={onSearch} />
         <Button onClick={() => navigate("add")}>Добавить студента</Button>
       </div>
-      <StudentsList students={students} isOver={isOver} fetchData={fetchData} />
+      <TwoColumnsList data={students} isOver={isOver} fetchData={fetchData} />
     </ContentContainer>
   );
 };
