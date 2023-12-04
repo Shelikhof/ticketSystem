@@ -49,7 +49,10 @@ const CertificateForm: React.FC<IProp> = ({ certificate }) => {
   };
 
   const onDelete = (id: string) => {
-    return CertificateService.deleteCertificate(id).then(() => navigate("/certificates"));
+    if (confirm("Удалить справку?")) {
+      return CertificateService.deleteCertificate(id).then(() => navigate("/certificates"));
+    }
+    return;
   };
 
   return (

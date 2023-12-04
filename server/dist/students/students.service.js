@@ -30,7 +30,7 @@ let StudentsService = class StudentsService {
         if (!platform) {
             throw new ValidationErrorException_1.ValidationErrorException("Площадки не существует");
         }
-        const fullName = `${dto.firstName} ${dto.lastName} ${dto.surName || ""}`.trim();
+        const fullName = `${dto.lastName} ${dto.firstName} ${dto.surName || ""}`.trim();
         const student = await this.studentRepository.create({ ...dto, fullName });
         return { student: { id: student.id } };
     }
@@ -39,7 +39,8 @@ let StudentsService = class StudentsService {
         if (!student) {
             throw new ValidationErrorException_1.ValidationErrorException("Студент не найден");
         }
-        await this.studentRepository.update(dto, { where: { id: id } });
+        const fullName = `${dto.lastName} ${dto.firstName} ${dto.surName || ""}`.trim();
+        await this.studentRepository.update({ ...dto, fullName }, { where: { id: id } });
         return { student: { id: student.id } };
     }
     async getById(id) {
@@ -51,7 +52,12 @@ let StudentsService = class StudentsService {
                     as: "group",
                     attributes: ["id", "name"],
                 },
+                {
+                    model: platform_model_1.Platform,
+                    as: "platform",
+                },
             ],
+            attributes: ["id", "firstName", "lastName", "surName", "fullName", "birthDate", "gender"],
         });
         if (!student) {
             throw new ValidationErrorException_1.ValidationErrorException("Студент не найден");

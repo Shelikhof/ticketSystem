@@ -20,7 +20,7 @@ export class StudentsService {
     if (!platform) {
       throw new ValidationErrorException("Площадки не существует");
     }
-    const fullName = `${dto.firstName} ${dto.lastName} ${dto.surName || ""}`.trim();
+    const fullName = `${dto.lastName} ${dto.firstName} ${dto.surName || ""}`.trim();
     const student = await this.studentRepository.create({ ...dto, fullName });
     return { student: { id: student.id } };
   }
@@ -31,7 +31,8 @@ export class StudentsService {
     if (!student) {
       throw new ValidationErrorException("Студент не найден");
     }
-    await this.studentRepository.update(dto, { where: { id: id } });
+    const fullName = `${dto.lastName} ${dto.firstName} ${dto.surName || ""}`.trim();
+    await this.studentRepository.update({ ...dto, fullName }, { where: { id: id } });
     return { student: { id: student.id } };
   }
 
@@ -45,7 +46,12 @@ export class StudentsService {
           as: "group",
           attributes: ["id", "name"],
         },
+        {
+          model: Platform,
+          as: "platform",
+        },
       ],
+      attributes: ["id", "firstName", "lastName", "surName", "fullName", "birthDate", "gender"],
     });
     if (!student) {
       throw new ValidationErrorException("Студент не найден");

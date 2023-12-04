@@ -1,0 +1,103 @@
+.option-container {
+  position: relative;
+}
+
+.select,
+.select-error {
+  padding: 0 20px;
+  background: var(--light-blue-color);
+  border-radius: 15px;
+  height: 60px;
+  transition: all 0.3s;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select:hover {
+  background: var(--light-blue-3-color);
+}
+
+.select img {
+  transition: transform 0.5s;
+}
+
+.select:hover img {
+  transform: translateY(5px);
+}
+
+.option-list {
+  background: var(--light-blue-color);
+  position: absolute;
+  width: 100%;
+  top: 65px;
+  border-radius: 15px;
+  left: 0;
+  overflow: hidden;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.option-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.option-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 999px;
+  width: 1px;
+}
+
+.option-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.option-list p {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.option-list p:hover {
+  background: var(--light-blue-3-color);
+}
+
+.option-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-label span {
+  color: var(--gray-color);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.option-label p {
+  position: absolute;
+  top: 28px;
+  left: 20px;
+}
+
+.option-label .label-small {
+  font-size: 12px;
+  line-height: 12px;
+  top: 16px;
+}
+
+.error-message {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  font-size: 12px;
+  color: var(--red-color);
+}
+
+.select-error {
+  background: var(--pink-color);
+}

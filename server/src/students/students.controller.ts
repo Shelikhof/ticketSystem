@@ -13,7 +13,7 @@ export class StudentsController {
   }
 
   //edit student by id
-  @Put("/edit/:studentId")
+  @Put("/:studentId")
   edit(@Param("studentId") studentId: string, @Body() dto: CreateStudentDto) {
     return this.studentsService.edit(studentId, dto);
   }

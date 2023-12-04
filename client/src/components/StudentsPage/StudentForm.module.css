@@ -1,0 +1,44 @@
+.form-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 35px;
+  margin-bottom: 40px;
+}
+
+.birthDate-input {
+  grid-row: 3/4;
+}
+
+.gender-select {
+  grid-row: 3/4;
+}
+
+.platform-select {
+  grid-row: 4/5;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 700px) {
+  .form-inputs {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .birthDate-input,
+  .gender-select,
+  .platform-select {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
