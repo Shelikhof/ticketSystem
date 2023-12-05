@@ -20,4 +20,16 @@ export declare class GroupsService {
         group: Group;
     }>;
     getAll(): Promise<Group[]>;
+    getAllWithLimit(limit: number, page: number): Promise<{
+        count: number;
+        page: number;
+        limit: number;
+        groups: Group[];
+    }>;
+    getBySearch(limit: number, page: number, searchValue: string): Promise<{
+        count: number;
+        page: number;
+        limit: number;
+        groups: Group[];
+    }>;
 }

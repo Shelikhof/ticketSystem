@@ -20,6 +20,7 @@ const student_model_1 = require("../students/student.model");
 const user_model_1 = require("../user/user.model");
 const platform_model_1 = require("../platform/platform.model");
 const ValidationErrorException_1 = require("../utils/ValidationErrorException");
+const sequelize_2 = require("sequelize");
 let GroupsService = class GroupsService {
     constructor(studentRepository, groupRepository, userRepository, platformRepository) {
         this.studentRepository = studentRepository;
@@ -77,7 +78,7 @@ let GroupsService = class GroupsService {
                 { model: user_model_1.User, as: "curator", attributes: ["id", "fullName"] },
                 { model: platform_model_1.Platform, as: "platform" },
             ],
-            attributes: ["id", "name"],
+            attributes: ["id", ["name", "title"]],
         });
         if (!group) {
             throw new ValidationErrorException_1.ValidationErrorException("Группа не найдена");
@@ -87,6 +88,27 @@ let GroupsService = class GroupsService {
     async getAll() {
         const groups = await this.groupRepository.findAll();
         return groups;
+    }
+    async getAllWithLimit(limit, page) {
+        const { count, rows } = await this.groupRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            attributes: ["id", ["name", "title"]],
+        });
+        return { count, page, limit, groups: rows };
+    }
+    async getBySearch(limit, page, searchValue) {
+        const { count, rows } = await this.groupRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            attributes: ["id", ["name", "title"]],
+            where: {
+                name: {
+                    [sequelize_2.Op.iLike]: `%${searchValue}%`,
+                },
+            },
+        });
+        return { count, page, limit, groups: rows };
     }
 };
 exports.GroupsService = GroupsService;

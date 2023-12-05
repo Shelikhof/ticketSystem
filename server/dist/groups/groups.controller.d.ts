@@ -13,5 +13,10 @@ export declare class GroupsController {
     getById(groupId: string): Promise<{
         group: import("./groups.model").Group;
     }>;
-    getAll(): Promise<import("./groups.model").Group[]>;
+    getAll(query: any): Promise<{
+        count: number;
+        page: number;
+        limit: number;
+        groups: import("./groups.model").Group[];
+    }> | Promise<import("./groups.model").Group[]>;
 }

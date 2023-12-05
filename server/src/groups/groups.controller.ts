@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { CreateGroupDto } from "./dto/createGroup.dto";
 import { GroupsService } from "./groups.service";
 
@@ -25,7 +25,14 @@ export class GroupsController {
   }
 
   @Get()
-  getAll() {
+  getAll(@Query() query: any) {
+    if (query.limit && query.page && query.q) {
+      return this.groupsService.getBySearch(query.limit, query.page, query.q);
+    }
+    if (query.limit && query.page) {
+      return this.groupsService.getAllWithLimit(query.limit, query.page);
+    }
+
     return this.groupsService.getAll();
   }
 }

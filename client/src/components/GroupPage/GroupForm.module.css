@@ -1,0 +1,17 @@
+.top-inputs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.top-inputs > * {
+  flex: 1;
+}
+
+.name-input {
+  max-width: 250px;
+  flex: auto;
+}
+
+.buttons {
+  margin-top: 40px;
+}

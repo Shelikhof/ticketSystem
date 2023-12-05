@@ -5,7 +5,7 @@ import { IStudentFields } from "../components/StudentsPage/StudentForm";
 
 export default class StudentService {
   static async getStudents(limit: number, page: number, q = ""): Promise<AxiosResponse<IStudentGetAll>> {
-    return $api.get<IStudentGetAll>(`/students?limit=${limit}&page=${page}&q=${q}`);
+    return $api.get<IStudentGetAll>(`/students?limit=${limit}&page=${page}&q=${q.trim()}`);
   }
 
   static async createStudent(data: IStudentFields): Promise<AxiosResponse<IStudentItem>> {
@@ -36,5 +36,9 @@ export default class StudentService {
 
   static async deleteStudent(id: string): Promise<AxiosResponse<ISingleStudent>> {
     return $api.delete(`/students/${id}`);
+  }
+
+  static async getFreeStudents(searchValue: string): Promise<AxiosResponse<IStudentItem[]>> {
+    return $api.get<IStudentItem[]>(`/students?isFree=true&q=${searchValue}`);
   }
 }

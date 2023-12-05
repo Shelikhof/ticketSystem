@@ -6,6 +6,7 @@ import { Student } from "src/students/student.model";
 import { User } from "src/user/user.model";
 import { Platform } from "src/platform/platform.model";
 import { ValidationErrorException } from "src/utils/ValidationErrorException";
+import { Op } from "sequelize";
 
 @Injectable()
 export class GroupsService {
@@ -74,7 +75,7 @@ export class GroupsService {
         { model: User, as: "curator", attributes: ["id", "fullName"] },
         { model: Platform, as: "platform" },
       ],
-      attributes: ["id", "name"],
+      attributes: ["id", ["name", "title"]],
     });
     if (!group) {
       throw new ValidationErrorException("Группа не найдена");
@@ -86,5 +87,28 @@ export class GroupsService {
   async getAll() {
     const groups = await this.groupRepository.findAll();
     return groups;
+  }
+
+  async getAllWithLimit(limit: number, page: number) {
+    const { count, rows } = await this.groupRepository.findAndCountAll({
+      limit: limit,
+      offset: (page - 1) * limit,
+      attributes: ["id", ["name", "title"]],
+    });
+    return { count, page, limit, groups: rows };
+  }
+
+  async getBySearch(limit: number, page: number, searchValue: string) {
+    const { count, rows } = await this.groupRepository.findAndCountAll({
+      limit: limit,
+      offset: (page - 1) * limit,
+      attributes: ["id", ["name", "title"]],
+      where: {
+        name: {
+          [Op.iLike]: `%${searchValue}%`,
+        },
+      },
+    });
+    return { count, page, limit, groups: rows };
   }
 }

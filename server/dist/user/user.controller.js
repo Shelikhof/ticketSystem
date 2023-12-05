@@ -14,8 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
-const createUser_dto_1 = require("./dto/createUser.dto");
 const user_service_1 = require("./user.service");
+const editUser_dto_1 = require("./dto/editUser.dto");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -27,7 +27,16 @@ let UserController = class UserController {
         if (query.roleId && query.page && query.limit) {
             return this.userService.getAllBySearchAndRole(query.q, query.roleId, query.page, query.limit);
         }
+        if (query.q && query.limit && query.page) {
+            return this.userService.getAllBySearch(query.q, query.page, query.limit);
+        }
+        if (query.page && query.limit) {
+            return this.userService.getAllWithPagination(query.page, query.limit);
+        }
         return this.userService.getAll();
+    }
+    getTeachers(query) {
+        return this.userService.getTeacherBySearch(query.q);
     }
     getById(userId) {
         return this.userService.getById(userId);
@@ -48,22 +57,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getAll", null);
 __decorate([
-    (0, common_1.Get)(":userId"),
+    (0, common_1.Get)("/teachers"),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getTeachers", null);
+__decorate([
+    (0, common_1.Get)("/p:userId"),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getById", null);
 __decorate([
-    (0, common_1.Put)("/edit/:userId"),
+    (0, common_1.Put)("/p/:userId"),
     __param(0, (0, common_1.Param)("userId")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, createUser_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [String, editUser_dto_1.EditUserDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "edit", null);
 __decorate([
-    (0, common_1.Delete)(":userId"),
+    (0, common_1.Delete)("p/:userId"),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

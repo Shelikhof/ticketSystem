@@ -1,0 +1,23 @@
+.list {
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 5px;
+}
+
+.item img {
+  width: 20px;
+}
+
+.minus {
+  /* background: #000; */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+}

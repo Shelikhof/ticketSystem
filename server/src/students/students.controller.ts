@@ -39,6 +39,9 @@ export class StudentsController {
     if (query.page && query.limit) {
       return this.studentsService.getAllWithLimit(query.page, query.limit);
     }
+    if (query.isFree == "true") {
+      return this.studentsService.getFreeStudents(query.q);
+    }
     return this.studentsService.getAll();
   }
 }

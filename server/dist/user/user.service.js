@@ -51,7 +51,7 @@ let UserService = class UserService {
                 { model: roles_model_1.Role, as: "role" },
                 { model: platform_model_1.Platform, as: "platform" },
             ],
-            attributes: ["id", "login", "firstName", "lastName", "surName", "fullName", "telNum"],
+            attributes: ["id", "login", "firstName", "lastName", "surName", "fullName", "telNum", "password"],
         });
         if (!user) {
             throw new ValidationErrorException_1.ValidationErrorException("Пользователь не найден");
@@ -72,6 +72,19 @@ let UserService = class UserService {
         });
         return { searchValue, count, page, limit, users: rows };
     }
+    async getAllBySearch(searchValue, page, limit) {
+        const { count, rows } = await this.userRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            where: {
+                fullName: {
+                    [sequelize_2.Op.iLike]: `%${searchValue}%`,
+                },
+            },
+            attributes: ["id", "firstName", "lastName", "surName", "fullName"],
+        });
+        return { searchValue, count, page, limit, users: rows };
+    }
     async getAllByRoleAndPlatform(roleId, platformId, page, limit) {
         const { count, rows } = await this.userRepository.findAndCountAll({
             limit: limit,
@@ -84,17 +97,52 @@ let UserService = class UserService {
         });
         return { count, page, limit, users: rows };
     }
+    async getAllWithPagination(page, limit) {
+        const { count, rows } = await this.userRepository.findAndCountAll({
+            limit: limit,
+            offset: (page - 1) * limit,
+            attributes: ["id", "firstName", "lastName", "surName", "fullName"],
+        });
+        return { count, page, limit, users: rows };
+    }
     async getAll() {
-        const users = await this.userRepository.findAll({});
+        const users = await this.userRepository.findAll();
         return users;
+    }
+    async getTeacherBySearch(searchValue) {
+        const role = await this.roleRepository.findOne({
+            where: {
+                title: "Преподаватель",
+            },
+        });
+        const data = await this.userRepository.findAll({
+            limit: 10,
+            where: {
+                roleId: role.id,
+                fullName: {
+                    [sequelize_2.Op.iLike]: `%${searchValue}%`,
+                },
+            },
+            attributes: ["id", "fullName"],
+        });
+        return data;
     }
     async edit(id, dto) {
         const user = await this.userRepository.findByPk(id);
         if (!user) {
             throw new ValidationErrorException_1.ValidationErrorException("Пользователь не найден");
         }
-        const hashPassword = await bcrypt.hash(dto.password, Number(process.env.SALT));
-        await this.userRepository.update({ ...dto, password: hashPassword }, { where: { id: id } });
+        const fullName = `${dto.lastName} ${dto.firstName} ${dto.surName || ""}`.trim();
+        let hashPassword = "";
+        if (dto?.password) {
+            hashPassword = await bcrypt.hash(dto.password, Number(process.env.SALT));
+        }
+        if (hashPassword) {
+            await this.userRepository.update({ ...dto, password: hashPassword, fullName }, { where: { id: id } });
+        }
+        else {
+            await this.userRepository.update({ ...dto, fullName, password: user.password }, { where: { id: id } });
+        }
         return { user: { id } };
     }
     async delete(id) {

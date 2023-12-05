@@ -6,7 +6,7 @@ import SearchBar from "../../UI/forms/SearchBar";
 import StudentService from "../../http/StudentsService";
 import styles from "./StudentsPageComponent.module.css";
 import { useNavigate } from "react-router-dom";
-import TwoColumnsList from "../../UI/list/FullNameList";
+import ColumnList from "../../UI/list/ColumnList";
 
 const StudentsPageComponent = () => {
   const LIMIT = 3;
@@ -43,7 +43,7 @@ const StudentsPageComponent = () => {
         <SearchBar setValue={setSearchValue} value={searchValue} onSearch={onSearch} />
         <Button onClick={() => navigate("add")}>Добавить студента</Button>
       </div>
-      <TwoColumnsList data={students} isOver={isOver} fetchData={fetchData} />
+      <ColumnList data={students} isOver={isOver} fetchData={fetchData} />
     </ContentContainer>
   );
 };

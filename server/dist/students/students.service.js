@@ -104,6 +104,19 @@ let StudentsService = class StudentsService {
         });
         return { count, page, limit, students: rows };
     }
+    async getFreeStudents(searchValue) {
+        const data = await this.studentRepository.findAll({
+            limit: 10,
+            where: {
+                fullName: {
+                    [sequelize_2.Op.iLike]: `%${searchValue}%`,
+                },
+                groupId: null,
+            },
+            attributes: ["fullName", "id"],
+        });
+        return data;
+    }
 };
 exports.StudentsService = StudentsService;
 exports.StudentsService = StudentsService = __decorate([

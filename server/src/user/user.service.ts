@@ -7,6 +7,7 @@ import { ValidationErrorException } from "src/utils/ValidationErrorException";
 import { Platform } from "src/platform/platform.model";
 import * as bcrypt from "bcryptjs";
 import { Op } from "sequelize";
+import { EditUserDto } from "./dto/editUser.dto";
 
 @Injectable()
 export class UserService {
@@ -46,7 +47,7 @@ export class UserService {
         { model: Role, as: "role" },
         { model: Platform, as: "platform" },
       ],
-      attributes: ["id", "login", "firstName", "lastName", "surName", "fullName", "telNum"],
+      attributes: ["id", "login", "firstName", "lastName", "surName", "fullName", "telNum", "password"],
     });
     if (!user) {
       throw new ValidationErrorException("Пользователь не найден");
@@ -61,6 +62,21 @@ export class UserService {
       offset: (page - 1) * limit,
       where: {
         roleId: roleId,
+        fullName: {
+          [Op.iLike]: `%${searchValue}%`,
+        },
+      },
+      attributes: ["id", "firstName", "lastName", "surName", "fullName"],
+    });
+    return { searchValue, count, page, limit, users: rows };
+  }
+
+  //get users by search
+  async getAllBySearch(searchValue: string, page: number, limit: number) {
+    const { count, rows } = await this.userRepository.findAndCountAll({
+      limit: limit,
+      offset: (page - 1) * limit,
+      where: {
         fullName: {
           [Op.iLike]: `%${searchValue}%`,
         },
@@ -85,18 +101,55 @@ export class UserService {
   }
 
   //get all users
+  async getAllWithPagination(page: number, limit: number) {
+    const { count, rows } = await this.userRepository.findAndCountAll({
+      limit: limit,
+      offset: (page - 1) * limit,
+      attributes: ["id", "firstName", "lastName", "surName", "fullName"],
+    });
+    return { count, page, limit, users: rows };
+  }
+
   async getAll() {
-    const users = await this.userRepository.findAll({});
+    const users = await this.userRepository.findAll();
     return users;
   }
+
+  async getTeacherBySearch(searchValue: string) {
+    const role = await this.roleRepository.findOne({
+      where: {
+        title: "Преподаватель",
+      },
+    });
+    const data = await this.userRepository.findAll({
+      limit: 10,
+      where: {
+        roleId: role.id,
+        fullName: {
+          [Op.iLike]: `%${searchValue}%`,
+        },
+      },
+      attributes: ["id", "fullName"],
+    });
+    return data;
+  }
+
   //edit user by id
-  async edit(id: string, dto: CreateUserDto) {
+  async edit(id: string, dto: EditUserDto) {
     const user = await this.userRepository.findByPk(id);
     if (!user) {
       throw new ValidationErrorException("Пользователь не найден");
     }
-    const hashPassword = await bcrypt.hash(dto.password, Number(process.env.SALT));
-    await this.userRepository.update({ ...dto, password: hashPassword }, { where: { id: id } });
+    const fullName = `${dto.lastName} ${dto.firstName} ${dto.surName || ""}`.trim();
+    let hashPassword = "";
+    if (dto?.password) {
+      hashPassword = await bcrypt.hash(dto.password, Number(process.env.SALT));
+    }
+    if (hashPassword) {
+      await this.userRepository.update({ ...dto, password: hashPassword, fullName }, { where: { id: id } });
+    } else {
+      await this.userRepository.update({ ...dto, fullName, password: user.password }, { where: { id: id } });
+    }
     // const updatedUser = await this.getById(id);
     return { user: { id } };
   }

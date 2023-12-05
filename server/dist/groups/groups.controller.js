@@ -30,7 +30,13 @@ let GroupsController = class GroupsController {
     getById(groupId) {
         return this.groupsService.getById(groupId);
     }
-    getAll() {
+    getAll(query) {
+        if (query.limit && query.page && query.q) {
+            return this.groupsService.getBySearch(query.limit, query.page, query.q);
+        }
+        if (query.limit && query.page) {
+            return this.groupsService.getAllWithLimit(query.limit, query.page);
+        }
         return this.groupsService.getAll();
     }
 };
@@ -64,8 +70,9 @@ __decorate([
 ], GroupsController.prototype, "getById", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], GroupsController.prototype, "getAll", null);
 exports.GroupsController = GroupsController = __decorate([

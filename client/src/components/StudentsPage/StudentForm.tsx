@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import StudentService from "../../http/StudentsService";
 import { ISingleStudent } from "../../http/interfaces/IStudentsResponse.interface";
 import formatDate from "../../utils/formatDate";
+import BottomButtons from "../../UI/forms/BottomButtons";
 
 export interface IStudentFields {
   firstName: string;
@@ -115,7 +116,7 @@ const StudentForm: React.FC<IProp> = ({ student }) => {
       <div className={styles["form-inputs"]}>
         <Input register={register} errors={errors} name="lastName" label="Фамилия" validationRules={{ required: "Поле обязательное" }} />
         <Input register={register} errors={errors} name="firstName" label="Имя" validationRules={{ required: "Поле обязательное" }} />
-        <Input register={register} errors={errors} name="surName" label="Отчество" validationRules={{ required: "Поле обязательное" }} />
+        <Input register={register} errors={errors} name="surName" label="Отчество" />
         <div className={styles["birthDate-input"]}>
           <Input
             register={register}
@@ -141,17 +142,7 @@ const StudentForm: React.FC<IProp> = ({ student }) => {
           )}
         </div>
       </div>
-      <div className={styles["buttons"]}>
-        <Button btnStyle="gray" type="button" onClick={() => navigate("/students")}>
-          Отмена
-        </Button>
-        {student && (
-          <Button btnStyle="red" type="button" onClick={() => onDelete(student?.id)}>
-            Удалить
-          </Button>
-        )}
-        {student ? <Button type="submit">Сохранить студента</Button> : <Button type="submit">Добавить студента</Button>}
-      </div>
+      <BottomButtons label={{ onCreate: "Добавить студента", onSave: "Сохранить студента" }} link="/students" onDelete={onDelete} item={student} />
     </form>
   );
 };

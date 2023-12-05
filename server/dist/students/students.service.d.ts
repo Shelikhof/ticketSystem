@@ -34,4 +34,5 @@ export declare class StudentsService {
         limit: number;
         students: Student[];
     }>;
+    getFreeStudents(searchValue: string): Promise<Student[]>;
 }

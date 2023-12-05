@@ -1,16 +1,17 @@
-import { CreateUserDto } from "./dto/createUser.dto";
 import { UserService } from "./user.service";
+import { EditUserDto } from "./dto/editUser.dto";
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
-    getAll(query: any): Promise<import("./user.model").User[]> | Promise<{
+    getAll(query: any): Promise<{
         count: number;
         page: number;
         limit: number;
         users: import("./user.model").User[];
-    }>;
+    }> | Promise<import("./user.model").User[]>;
+    getTeachers(query: any): Promise<import("./user.model").User[]>;
     getById(userId: string): Promise<import("./user.model").User>;
-    edit(userId: string, dto: CreateUserDto): Promise<{
+    edit(userId: string, dto: EditUserDto): Promise<{
         user: {
             id: string;
         };

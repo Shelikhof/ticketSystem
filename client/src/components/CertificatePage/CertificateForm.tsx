@@ -7,6 +7,7 @@ import CertificateService from "../../http/CertificateService";
 import { AxiosError } from "axios";
 import { IError } from "../../interfaces/IError.interface";
 import ErrorAlert from "../../UI/forms/Error";
+import BottomButtons from "../../UI/forms/BottomButtons";
 
 interface ICertificateFields {
   id: string;
@@ -62,7 +63,7 @@ const CertificateForm: React.FC<IProp> = ({ certificate }) => {
         {error && <ErrorAlert error={error} />}
       </div>
 
-      <div className={styles["buttons"]}>
+      {/* <div className={styles["buttons"]}>
         <Button btnStyle="gray" type="button" onClick={() => navigate("/certificates")}>
           Отмена
         </Button>
@@ -72,7 +73,8 @@ const CertificateForm: React.FC<IProp> = ({ certificate }) => {
           </Button>
         )}
         {certificate ? <Button type="submit">Сохранить справку</Button> : <Button type="submit">Добавить справку</Button>}
-      </div>
+      </div> */}
+      <BottomButtons link="/certificates" onDelete={onDelete} item={certificate} label={{ onCreate: "Добавить справку", onSave: "Сохранить справку" }} />
     </form>
   );
 };
