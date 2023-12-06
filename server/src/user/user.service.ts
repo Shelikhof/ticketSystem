@@ -6,15 +6,17 @@ import { Role } from "src/roles/roles.model";
 import { ValidationErrorException } from "src/utils/ValidationErrorException";
 import { Platform } from "src/platform/platform.model";
 import * as bcrypt from "bcryptjs";
-import { Op } from "sequelize";
+import { Op, literal } from "sequelize";
 import { EditUserDto } from "./dto/editUser.dto";
+import { Group } from "src/groups/groups.model";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     @InjectModel(Role) private roleRepository: typeof Role,
-    @InjectModel(Platform) private platformRepository: typeof Platform
+    @InjectModel(Platform) private platformRepository: typeof Platform,
+    @InjectModel(Group) private groupRepository: typeof Group
   ) {}
 
   //add new user
@@ -121,13 +123,21 @@ export class UserService {
         title: "Преподаватель",
       },
     });
+
     const data = await this.userRepository.findAll({
       limit: 10,
+      include: [
+        {
+          model: Group,
+          required: false,
+        },
+      ],
       where: {
         roleId: role.id,
         fullName: {
           [Op.iLike]: `%${searchValue}%`,
         },
+        "$groups.curatorId$": null,
       },
       attributes: ["id", "fullName"],
     });
@@ -160,7 +170,16 @@ export class UserService {
     if (!user) {
       throw new ValidationErrorException("Пользователь не найден");
     }
-    user.destroy();
-    return { user: { id } };
+    const group = await this.groupRepository.findOne({
+      where: {
+        curatorId: id,
+      },
+    });
+
+    if (group) {
+      throw new ValidationErrorException(`Пользователь куратор группы ${group.name}`);
+    }
+    await user.destroy();
+    return user;
   }
 }

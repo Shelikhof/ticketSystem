@@ -15,6 +15,7 @@ const user_model_1 = require("./user.model");
 const roles_model_1 = require("../roles/roles.model");
 const auth_module_1 = require("../auth/auth.module");
 const platform_model_1 = require("../platform/platform.model");
+const groups_model_1 = require("../groups/groups.model");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -22,7 +23,7 @@ exports.UserModule = UserModule = __decorate([
     (0, common_1.Module)({
         controllers: [user_controller_1.UserController],
         providers: [user_service_1.UserService],
-        imports: [sequelize_1.SequelizeModule.forFeature([user_model_1.User, roles_model_1.Role, platform_model_1.Platform]), (0, common_1.forwardRef)(() => auth_module_1.AuthModule)],
+        imports: [sequelize_1.SequelizeModule.forFeature([user_model_1.User, roles_model_1.Role, platform_model_1.Platform, groups_model_1.Group]), (0, common_1.forwardRef)(() => auth_module_1.AuthModule)],
         exports: [user_service_1.UserService],
     })
 ], UserModule);

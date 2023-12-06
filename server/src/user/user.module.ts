@@ -6,11 +6,12 @@ import { User } from "./user.model";
 import { Role } from "src/roles/roles.model";
 import { AuthModule } from "src/auth/auth.module";
 import { Platform } from "src/platform/platform.model";
+import { Group } from "src/groups/groups.model";
 
 @Module({
   controllers: [UserController],
   providers: [UserService],
-  imports: [SequelizeModule.forFeature([User, Role, Platform]), forwardRef(() => AuthModule)],
+  imports: [SequelizeModule.forFeature([User, Role, Platform, Group]), forwardRef(() => AuthModule)],
   exports: [UserService],
 })
 export class UserModule {}

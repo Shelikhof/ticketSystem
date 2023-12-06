@@ -9,6 +9,7 @@ interface IProp {
   name?: string;
   errors?: FieldErrors;
   clearErrors?: UseFormClearErrors<any>;
+  defaultValue?: string;
 }
 
 interface IResultItem {
@@ -16,16 +17,16 @@ interface IResultItem {
   id: string;
 }
 
-const SearchSelect: React.FC<IProp> = ({ label, fetchData, onSelect, clearErrors, errors, name }) => {
+const SearchSelect: React.FC<IProp> = ({ label, fetchData, onSelect, clearErrors, errors, name, defaultValue }) => {
   const selectRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [result, setResult] = useState<IResultItem[]>();
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    // if (defaultValue) {
-    //   setOption(data.find((el) => el.id === defaultValue));
-    // }
+    if (defaultValue) {
+      setValue(defaultValue);
+    }
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);

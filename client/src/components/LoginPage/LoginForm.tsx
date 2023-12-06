@@ -32,9 +32,9 @@ const LoginForm: React.FC = () => {
   const onSubmit: SubmitHandler<ILoginFields> = async (data) => {
     try {
       const userData = await AuthService.login(data.login, data.password);
-      dispatch(setUserInfo({ name: userData.data.user.name, role: userData.data.user.role }));
+      dispatch(setUserInfo({ name: userData.data.user.name, role: userData.data.user.role, id: userData.data.user.id }));
       localStorage.setItem("token", userData.data.token);
-      navigate("/ticket");
+      navigate("/tickets");
     } catch (error) {
       setError("Неверный логин или пароль");
     }

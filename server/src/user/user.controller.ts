@@ -47,7 +47,7 @@ export class UserController {
   }
 
   //get user by id
-  @Get("/p:userId")
+  @Get("/p/:userId")
   getById(@Param("userId") userId: string) {
     return this.userService.getById(userId);
   }

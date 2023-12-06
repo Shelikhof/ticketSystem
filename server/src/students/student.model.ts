@@ -68,6 +68,8 @@ export class Student extends Model<Student, ICreateStudent> {
   @ForeignKey(() => Group)
   @Column({
     type: DataType.UUID,
+    allowNull: true,
+    onDelete: "SET NULL",
   })
   groupId: string;
 

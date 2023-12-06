@@ -3,11 +3,13 @@ import { CreateUserDto } from "./dto/createUser.dto";
 import { Role } from "src/roles/roles.model";
 import { Platform } from "src/platform/platform.model";
 import { EditUserDto } from "./dto/editUser.dto";
+import { Group } from "src/groups/groups.model";
 export declare class UserService {
     private userRepository;
     private roleRepository;
     private platformRepository;
-    constructor(userRepository: typeof User, roleRepository: typeof Role, platformRepository: typeof Platform);
+    private groupRepository;
+    constructor(userRepository: typeof User, roleRepository: typeof Role, platformRepository: typeof Platform, groupRepository: typeof Group);
     createUser(dto: CreateUserDto): Promise<User>;
     getUserByLogin(login: string): Promise<User>;
     getById(id: string): Promise<User>;
@@ -44,9 +46,5 @@ export declare class UserService {
             id: string;
         };
     }>;
-    delete(id: string): Promise<{
-        user: {
-            id: string;
-        };
-    }>;
+    delete(id: string): Promise<User>;
 }

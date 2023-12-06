@@ -42,33 +42,65 @@ let GroupsService = class GroupsService {
             throw new ValidationErrorException_1.ValidationErrorException("Куратор не найден");
         }
         const group = await this.groupRepository.create(dto);
-        const students = dto.studentsId;
-        for (const id of students) {
-            const student = await this.studentRepository.findByPk(id);
-            if (!student) {
-                group.destroy();
-                throw new ValidationErrorException_1.ValidationErrorException("Студент не найден");
+        const students = dto.students;
+        if (students && students.length > 0) {
+            for (const id of students) {
+                const student = await this.studentRepository.findByPk(id);
+                if (!student) {
+                    group.destroy();
+                    throw new ValidationErrorException_1.ValidationErrorException("Студент не найден");
+                }
+                if (student.groupId !== null) {
+                    group.destroy();
+                    throw new ValidationErrorException_1.ValidationErrorException(`Студент ${student.fullName} добавлен в другую группу`);
+                }
             }
-            if (student.groupId !== null) {
-                group.destroy();
-                throw new ValidationErrorException_1.ValidationErrorException(`Студент ${student.fullName} добавлен в другую группу`);
+            for (const id of students) {
+                const student = await this.studentRepository.findByPk(id);
+                student.groupId = group.id;
+                student.save();
             }
-        }
-        for (const id of students) {
-            const student = await this.studentRepository.findByPk(id);
-            student.groupId = group.id;
-            student.save();
         }
         return group;
     }
-    async edit() { }
+    async edit(id, dto) {
+        const group = await this.groupRepository.findByPk(id);
+        if (!group) {
+            throw new ValidationErrorException_1.ValidationErrorException("Группа не найдена");
+        }
+        const oldStudents = await this.studentRepository.findAll({ where: { groupId: group.id } });
+        for (const el of oldStudents) {
+            const std = await this.studentRepository.findByPk(el.id);
+            std.groupId = null;
+            await std.save();
+        }
+        const students = dto.students;
+        if (students && students.length > 0) {
+            for (const id of students) {
+                const student = await this.studentRepository.findByPk(id);
+                if (!student) {
+                    throw new ValidationErrorException_1.ValidationErrorException("Студент не найден");
+                }
+                if (student.groupId !== null) {
+                    throw new ValidationErrorException_1.ValidationErrorException(`Студент ${student.fullName} добавлен в другую группу`);
+                }
+            }
+            for (const id of students) {
+                const student = await this.studentRepository.findByPk(id);
+                student.groupId = group.id;
+                student.save();
+            }
+        }
+        await this.groupRepository.update({ curatorId: dto.curatorId, name: dto.name, platformId: dto.platformId }, { where: { id: id } });
+        return;
+    }
     async delete(id) {
         const group = await this.groupRepository.findByPk(id);
         if (!group) {
             throw new ValidationErrorException_1.ValidationErrorException("Группа не найдена");
         }
-        group.destroy();
-        return { group: { id } };
+        await group.destroy();
+        return { id: id };
     }
     async getById(id) {
         const group = await this.groupRepository.findOne({
@@ -83,7 +115,7 @@ let GroupsService = class GroupsService {
         if (!group) {
             throw new ValidationErrorException_1.ValidationErrorException("Группа не найдена");
         }
-        return { group };
+        return group;
     }
     async getAll() {
         const groups = await this.groupRepository.findAll();
@@ -109,6 +141,22 @@ let GroupsService = class GroupsService {
             },
         });
         return { count, page, limit, groups: rows };
+    }
+    async getGroupByCuratorId(id) {
+        const curator = await this.userRepository.findByPk(id);
+        if (!curator) {
+            throw new ValidationErrorException_1.ValidationErrorException("Куратор не найден");
+        }
+        const group = await this.groupRepository.findOne({
+            where: {
+                curatorId: id,
+            },
+        });
+        if (!group) {
+            throw new ValidationErrorException_1.ValidationErrorException("Куратор не найден");
+        }
+        const groupData = await this.getById(group.id);
+        return groupData;
     }
 };
 exports.GroupsService = GroupsService;

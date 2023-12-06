@@ -33,28 +33,68 @@ export class GroupsService {
     }
     const group = await this.groupRepository.create(dto);
 
-    const students = dto.studentsId;
-    for (const id of students) {
-      const student = await this.studentRepository.findByPk(id);
-      if (!student) {
-        group.destroy();
-        throw new ValidationErrorException("Студент не найден");
+    const students = dto.students;
+    if (students && students.length > 0) {
+      //check if all students is exist and free
+      for (const id of students) {
+        const student = await this.studentRepository.findByPk(id);
+        if (!student) {
+          group.destroy();
+          throw new ValidationErrorException("Студент не найден");
+        }
+        if (student.groupId !== null) {
+          group.destroy();
+          throw new ValidationErrorException(`Студент ${student.fullName} добавлен в другую группу`);
+        }
       }
-      if (student.groupId !== null) {
-        group.destroy();
-        throw new ValidationErrorException(`Студент ${student.fullName} добавлен в другую группу`);
+      //add groupId to students
+      for (const id of students) {
+        const student = await this.studentRepository.findByPk(id);
+        student.groupId = group.id;
+        student.save();
       }
-    }
-    for (const id of students) {
-      const student = await this.studentRepository.findByPk(id);
-      student.groupId = group.id;
-      student.save();
     }
     return group;
   }
 
   //edit group by id
-  async edit() {}
+  async edit(id: string, dto: CreateGroupDto) {
+    const group = await this.groupRepository.findByPk(id);
+    if (!group) {
+      throw new ValidationErrorException("Группа не найдена");
+    }
+
+    //delete fk in old students
+    const oldStudents = await this.studentRepository.findAll({ where: { groupId: group.id } });
+    for (const el of oldStudents) {
+      const std = await this.studentRepository.findByPk(el.id);
+      std.groupId = null;
+      await std.save();
+    }
+
+    const students = dto.students;
+    if (students && students.length > 0) {
+      //check if all students is exist and free
+      for (const id of students) {
+        const student = await this.studentRepository.findByPk(id);
+        if (!student) {
+          throw new ValidationErrorException("Студент не найден");
+        }
+        if (student.groupId !== null) {
+          throw new ValidationErrorException(`Студент ${student.fullName} добавлен в другую группу`);
+        }
+      }
+      //add groupId to students
+      for (const id of students) {
+        const student = await this.studentRepository.findByPk(id);
+        student.groupId = group.id;
+        student.save();
+      }
+    }
+
+    await this.groupRepository.update({ curatorId: dto.curatorId, name: dto.name, platformId: dto.platformId }, { where: { id: id } });
+    return;
+  }
 
   //delete group by id
   async delete(id: string) {
@@ -62,8 +102,8 @@ export class GroupsService {
     if (!group) {
       throw new ValidationErrorException("Группа не найдена");
     }
-    group.destroy();
-    return { group: { id } };
+    await group.destroy();
+    return { id: id };
   }
 
   //get group by id
@@ -80,7 +120,7 @@ export class GroupsService {
     if (!group) {
       throw new ValidationErrorException("Группа не найдена");
     }
-    return { group };
+    return group;
   }
 
   //get all groups
@@ -110,5 +150,24 @@ export class GroupsService {
       },
     });
     return { count, page, limit, groups: rows };
+  }
+
+  async getGroupByCuratorId(id: string) {
+    const curator = await this.userRepository.findByPk(id);
+    if (!curator) {
+      throw new ValidationErrorException("Куратор не найден");
+    }
+
+    const group = await this.groupRepository.findOne({
+      where: {
+        curatorId: id,
+      },
+    });
+    if (!group) {
+      throw new ValidationErrorException("Куратор не найден");
+    }
+
+    const groupData = await this.getById(group.id);
+    return groupData;
   }
 }

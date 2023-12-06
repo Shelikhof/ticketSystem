@@ -6,13 +6,15 @@ import { GroupsService } from "./groups.service";
 export class GroupsController {
   constructor(private groupsService: GroupsService) {}
 
-  @Post("/add")
+  @Post("/")
   create(@Body() dto: CreateGroupDto) {
     return this.groupsService.create(dto);
   }
 
-  @Put("/edit/:groupId")
-  edit() {}
+  @Put("/:groupId")
+  edit(@Param("groupId") groupId: string, @Body() dto: CreateGroupDto) {
+    return this.groupsService.edit(groupId, dto);
+  }
 
   @Delete(":groupId")
   delete(@Param("groupId") groupId: string) {
@@ -31,6 +33,9 @@ export class GroupsController {
     }
     if (query.limit && query.page) {
       return this.groupsService.getAllWithLimit(query.limit, query.page);
+    }
+    if (query.curatorId) {
+      return this.groupsService.getGroupByCuratorId(query.curatorId);
     }
 
     return this.groupsService.getAll();

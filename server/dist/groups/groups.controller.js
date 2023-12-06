@@ -23,7 +23,9 @@ let GroupsController = class GroupsController {
     create(dto) {
         return this.groupsService.create(dto);
     }
-    edit() { }
+    edit(groupId, dto) {
+        return this.groupsService.edit(groupId, dto);
+    }
     delete(groupId) {
         return this.groupsService.delete(groupId);
     }
@@ -37,21 +39,26 @@ let GroupsController = class GroupsController {
         if (query.limit && query.page) {
             return this.groupsService.getAllWithLimit(query.limit, query.page);
         }
+        if (query.curatorId) {
+            return this.groupsService.getGroupByCuratorId(query.curatorId);
+        }
         return this.groupsService.getAll();
     }
 };
 exports.GroupsController = GroupsController;
 __decorate([
-    (0, common_1.Post)("/add"),
+    (0, common_1.Post)("/"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [createGroup_dto_1.CreateGroupDto]),
     __metadata("design:returntype", void 0)
 ], GroupsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Put)("/edit/:groupId"),
+    (0, common_1.Put)("/:groupId"),
+    __param(0, (0, common_1.Param)("groupId")),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, createGroup_dto_1.CreateGroupDto]),
     __metadata("design:returntype", void 0)
 ], GroupsController.prototype, "edit", null);
 __decorate([

@@ -6,12 +6,16 @@ import { Platform } from "src/platform/platform.model";
 import { ValidationErrorException } from "src/utils/ValidationErrorException";
 import { Group } from "src/groups/groups.model";
 import { Op } from "sequelize";
+import { User } from "src/user/user.model";
+import { Ticket } from "src/tickets/tickets.model";
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectModel(Student) private studentRepository: typeof Student,
-    @InjectModel(Platform) private platformRepository: typeof Platform
+    @InjectModel(Platform) private platformRepository: typeof Platform,
+    @InjectModel(User) private userRepository: typeof User,
+    @InjectModel(Group) private groupRepository: typeof Group
   ) {}
 
   //create students

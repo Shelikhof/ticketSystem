@@ -1,4 +1,4 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, HasOne, Model, Table } from "sequelize-typescript";
 import { Group } from "src/groups/groups.model";
 import { Platform } from "src/platform/platform.model";
 import { Role } from "src/roles/roles.model";
@@ -87,8 +87,8 @@ export class User extends Model<User, ICreateUser> {
   @BelongsTo(() => Role)
   role: Role;
 
-  @HasMany(() => Group, { onDelete: "NO ACTION", as: "curatorId" })
-  groups: Group[];
+  @HasOne(() => Group, { onDelete: "NO ACTION", foreignKey: "curatorId" })
+  groups: Group;
 
   @HasMany(() => Ticket, "curatorId")
   tickets: Ticket[];

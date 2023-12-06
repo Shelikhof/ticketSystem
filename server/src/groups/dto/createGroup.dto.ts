@@ -1,4 +1,4 @@
-import { IsArray, IsString, IsUUID } from "class-validator";
+import { IsArray, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class CreateGroupDto {
   @IsString({ message: "Должно быть строкой" })
@@ -10,6 +10,7 @@ export class CreateGroupDto {
   @IsUUID(4, { message: "Должно быть формата UUID" })
   readonly curatorId: string;
 
+  @IsOptional()
   @IsArray({ message: "Должно быть массивом" })
-  readonly studentsId: [string];
+  readonly students: [string] | void;
 }

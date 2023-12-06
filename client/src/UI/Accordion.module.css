@@ -1,0 +1,38 @@
+.accordion-1,
+.accordion-2 {
+  width: 100%;
+  background: var(--white-color);
+  border-radius: 15px;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.accordion-1 .label {
+  padding: 30px;
+}
+
+.accordion-1 .content {
+  padding: 0 40px 30px 40px;
+}
+
+.accordion-2 {
+  background: var(--light-blue-color);
+  border-radius: 10px;
+}
+
+.accordion-2 .label {
+  padding: 15px;
+}
+
+.accordion-2 .content {
+  padding: 0 15px 15px 15px;
+}
+
+.accordion-2 h2 {
+  font-size: 18px;
+}

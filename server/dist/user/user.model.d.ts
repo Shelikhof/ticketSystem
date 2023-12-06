@@ -27,7 +27,7 @@ export declare class User extends Model<User, ICreateUser> {
     platform: Platform;
     roleId: string;
     role: Role;
-    groups: Group[];
+    groups: Group;
     tickets: Ticket[];
 }
 export {};

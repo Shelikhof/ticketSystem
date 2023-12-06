@@ -21,11 +21,13 @@ const ValidationErrorException_1 = require("../utils/ValidationErrorException");
 const platform_model_1 = require("../platform/platform.model");
 const bcrypt = require("bcryptjs");
 const sequelize_2 = require("sequelize");
+const groups_model_1 = require("../groups/groups.model");
 let UserService = class UserService {
-    constructor(userRepository, roleRepository, platformRepository) {
+    constructor(userRepository, roleRepository, platformRepository, groupRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.platformRepository = platformRepository;
+        this.groupRepository = groupRepository;
     }
     async createUser(dto) {
         const role = await this.roleRepository.findByPk(dto.roleId);
@@ -117,11 +119,18 @@ let UserService = class UserService {
         });
         const data = await this.userRepository.findAll({
             limit: 10,
+            include: [
+                {
+                    model: groups_model_1.Group,
+                    required: false,
+                },
+            ],
             where: {
                 roleId: role.id,
                 fullName: {
                     [sequelize_2.Op.iLike]: `%${searchValue}%`,
                 },
+                "$groups.curatorId$": null,
             },
             attributes: ["id", "fullName"],
         });
@@ -150,8 +159,16 @@ let UserService = class UserService {
         if (!user) {
             throw new ValidationErrorException_1.ValidationErrorException("Пользователь не найден");
         }
-        user.destroy();
-        return { user: { id } };
+        const group = await this.groupRepository.findOne({
+            where: {
+                curatorId: id,
+            },
+        });
+        if (group) {
+            throw new ValidationErrorException_1.ValidationErrorException(`Пользователь куратор группы ${group.name}`);
+        }
+        await user.destroy();
+        return user;
     }
 };
 exports.UserService = UserService;
@@ -160,6 +177,7 @@ exports.UserService = UserService = __decorate([
     __param(0, (0, sequelize_1.InjectModel)(user_model_1.User)),
     __param(1, (0, sequelize_1.InjectModel)(roles_model_1.Role)),
     __param(2, (0, sequelize_1.InjectModel)(platform_model_1.Platform)),
-    __metadata("design:paramtypes", [Object, Object, Object])
+    __param(3, (0, sequelize_1.InjectModel)(groups_model_1.Group)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

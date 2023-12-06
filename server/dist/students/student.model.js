@@ -78,6 +78,8 @@ __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => groups_model_1.Group),
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.UUID,
+        allowNull: true,
+        onDelete: "SET NULL",
     }),
     __metadata("design:type", String)
 ], Student.prototype, "groupId", void 0);

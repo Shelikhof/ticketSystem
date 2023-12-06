@@ -1,10 +1,14 @@
 import { Student } from "./student.model";
 import { CreateStudentDto } from "./dto/createStudent.dto";
 import { Platform } from "src/platform/platform.model";
+import { Group } from "src/groups/groups.model";
+import { User } from "src/user/user.model";
 export declare class StudentsService {
     private studentRepository;
     private platformRepository;
-    constructor(studentRepository: typeof Student, platformRepository: typeof Platform);
+    private userRepository;
+    private groupRepository;
+    constructor(studentRepository: typeof Student, platformRepository: typeof Platform, userRepository: typeof User, groupRepository: typeof Group);
     create(dto: CreateStudentDto): Promise<{
         student: {
             id: string;

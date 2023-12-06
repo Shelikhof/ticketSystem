@@ -9,6 +9,7 @@ interface initialState {
   isAuth: boolean;
   isLoading: boolean;
   error: string | void;
+  id: string;
 }
 
 const initialState: initialState = {
@@ -20,6 +21,7 @@ const initialState: initialState = {
   isAuth: false,
   isLoading: true,
   error: "",
+  id: "",
 };
 
 const authSlice = createSlice({
@@ -31,6 +33,7 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.name = payload.name;
       state.role = payload.role;
+      state.id = payload.id;
     },
 
     clearUserInfo(state) {
@@ -38,6 +41,7 @@ const authSlice = createSlice({
       state.name.firstName = "";
       state.name.lastName = "";
       state.role = "";
+      state.id = "";
     },
   },
 

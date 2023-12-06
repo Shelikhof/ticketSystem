@@ -27,7 +27,8 @@ __decorate([
     __metadata("design:type", String)
 ], CreateGroupDto.prototype, "curatorId", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)({ message: "Должно быть массивом" }),
-    __metadata("design:type", Array)
-], CreateGroupDto.prototype, "studentsId", void 0);
+    __metadata("design:type", Object)
+], CreateGroupDto.prototype, "students", void 0);
 //# sourceMappingURL=createGroup.dto.js.map

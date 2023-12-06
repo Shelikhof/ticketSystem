@@ -31,6 +31,7 @@ let AuthService = class AuthService {
         return {
             token,
             user: {
+                id: user.id,
                 name: {
                     firstName: user.firstName,
                     lastName: user.lastName,

@@ -2,9 +2,11 @@
   display: flex;
   gap: 20px;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 .top-inputs > * {
   flex: 1;
+  min-width: 250px;
 }
 
 .name-input {
@@ -14,4 +16,16 @@
 
 .buttons {
   margin-top: 40px;
+}
+
+@media (max-width: 650px) {
+  .top-inputs {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .name-input {
+    width: 100%;
+    max-width: 100%;
+  }
 }

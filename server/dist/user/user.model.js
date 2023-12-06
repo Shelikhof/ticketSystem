@@ -100,8 +100,8 @@ __decorate([
     __metadata("design:type", roles_model_1.Role)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => groups_model_1.Group, { onDelete: "NO ACTION", as: "curatorId" }),
-    __metadata("design:type", Array)
+    (0, sequelize_typescript_1.HasOne)(() => groups_model_1.Group, { onDelete: "NO ACTION", foreignKey: "curatorId" }),
+    __metadata("design:type", groups_model_1.Group)
 ], User.prototype, "groups", void 0);
 __decorate([
     (0, sequelize_typescript_1.HasMany)(() => tickets_model_1.Ticket, "curatorId"),

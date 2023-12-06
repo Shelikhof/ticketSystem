@@ -20,10 +20,13 @@ const platform_model_1 = require("../platform/platform.model");
 const ValidationErrorException_1 = require("../utils/ValidationErrorException");
 const groups_model_1 = require("../groups/groups.model");
 const sequelize_2 = require("sequelize");
+const user_model_1 = require("../user/user.model");
 let StudentsService = class StudentsService {
-    constructor(studentRepository, platformRepository) {
+    constructor(studentRepository, platformRepository, userRepository, groupRepository) {
         this.studentRepository = studentRepository;
         this.platformRepository = platformRepository;
+        this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
     }
     async create(dto) {
         const platform = await this.platformRepository.findByPk(dto.platformId);
@@ -123,6 +126,8 @@ exports.StudentsService = StudentsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, sequelize_1.InjectModel)(student_model_1.Student)),
     __param(1, (0, sequelize_1.InjectModel)(platform_model_1.Platform)),
-    __metadata("design:paramtypes", [Object, Object])
+    __param(2, (0, sequelize_1.InjectModel)(user_model_1.User)),
+    __param(3, (0, sequelize_1.InjectModel)(groups_model_1.Group)),
+    __metadata("design:paramtypes", [Object, Object, Object, Object])
 ], StudentsService);
 //# sourceMappingURL=students.service.js.map

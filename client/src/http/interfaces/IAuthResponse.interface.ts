@@ -4,6 +4,7 @@ export interface IAuthResponse {
 }
 
 export interface IUserInfo {
+  id: string;
   name: {
     firstName: string;
     lastName: string;

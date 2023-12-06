@@ -4,16 +4,12 @@ export declare class GroupsController {
     private groupsService;
     constructor(groupsService: GroupsService);
     create(dto: CreateGroupDto): Promise<import("./groups.model").Group>;
-    edit(): void;
+    edit(groupId: string, dto: CreateGroupDto): Promise<void>;
     delete(groupId: string): Promise<{
-        group: {
-            id: string;
-        };
+        id: string;
     }>;
-    getById(groupId: string): Promise<{
-        group: import("./groups.model").Group;
-    }>;
-    getAll(query: any): Promise<{
+    getById(groupId: string): Promise<import("./groups.model").Group>;
+    getAll(query: any): Promise<import("./groups.model").Group> | Promise<{
         count: number;
         page: number;
         limit: number;

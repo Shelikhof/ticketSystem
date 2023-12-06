@@ -13,6 +13,8 @@ const students_controller_1 = require("./students.controller");
 const sequelize_1 = require("@nestjs/sequelize");
 const student_model_1 = require("./student.model");
 const platform_model_1 = require("../platform/platform.model");
+const user_model_1 = require("../user/user.model");
+const groups_model_1 = require("../groups/groups.model");
 let StudentsModule = class StudentsModule {
 };
 exports.StudentsModule = StudentsModule;
@@ -20,7 +22,7 @@ exports.StudentsModule = StudentsModule = __decorate([
     (0, common_1.Module)({
         providers: [students_service_1.StudentsService],
         controllers: [students_controller_1.StudentsController],
-        imports: [sequelize_1.SequelizeModule.forFeature([student_model_1.Student, platform_model_1.Platform])],
+        imports: [sequelize_1.SequelizeModule.forFeature([student_model_1.Student, platform_model_1.Platform, user_model_1.User, groups_model_1.Group])],
     })
 ], StudentsModule);
 //# sourceMappingURL=students.module.js.map

@@ -6,10 +6,12 @@ import CertificateRouter from "./CertificateRouter";
 import StudentRouter from "./StudentRouter";
 import UserRouter from "./UserRouter";
 import GroupRouter from "./GroupRouter";
+import TicketRouter from "./TicketRouter";
 
 const AppRouter = () => {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/tickets" />} />
       <Route path="/dev" element={<DevPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/ticket" element={<TicketsListPage />} />
@@ -17,6 +19,7 @@ const AppRouter = () => {
       <Route path="/students/*" element={<StudentRouter />} />
       <Route path="/users/*" element={<UserRouter />} />
       <Route path="/groups/*" element={<GroupRouter />} />
+      <Route path="/tickets/*" element={<TicketRouter />} />
       <Route path="/404" element={<NotFoundPage />} />
       {/* <Route path="*" element={<Navigate to={"/404"} />} /> */}
     </Routes>

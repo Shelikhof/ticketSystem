@@ -64,7 +64,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getTeachers", null);
 __decorate([
-    (0, common_1.Get)("/p:userId"),
+    (0, common_1.Get)("/p/:userId"),
     __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

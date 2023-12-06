@@ -97,11 +97,17 @@ const UserForm: React.FC<IProp> = ({ user }) => {
     }
   };
 
-  const onDelete = (id: string) => {
+  const onDelete = async (id: string) => {
     if (confirm("Удалить персонал?")) {
-      return UserService.deleteUser(id).then(() => navigate("/users"));
+      try {
+        return await UserService.deleteUser(id).then(() => navigate("/users"));
+      } catch (e) {
+        const error = e as AxiosError<IError>;
+        setFormError(error.response?.data?.message || "");
+        console.log(error);
+      }
+      return;
     }
-    return;
   };
 
   const validationRulesPassword = user ? {} : { required: "Поле обязательное" };

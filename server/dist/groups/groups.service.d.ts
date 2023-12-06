@@ -10,15 +10,11 @@ export declare class GroupsService {
     private platformRepository;
     constructor(studentRepository: typeof Student, groupRepository: typeof Group, userRepository: typeof User, platformRepository: typeof Platform);
     create(dto: CreateGroupDto): Promise<Group>;
-    edit(): Promise<void>;
+    edit(id: string, dto: CreateGroupDto): Promise<void>;
     delete(id: string): Promise<{
-        group: {
-            id: string;
-        };
+        id: string;
     }>;
-    getById(id: string): Promise<{
-        group: Group;
-    }>;
+    getById(id: string): Promise<Group>;
     getAll(): Promise<Group[]>;
     getAllWithLimit(limit: number, page: number): Promise<{
         count: number;
@@ -32,4 +28,5 @@ export declare class GroupsService {
         limit: number;
         groups: Group[];
     }>;
+    getGroupByCuratorId(id: string): Promise<Group>;
 }
