@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  # Frontend (React + Vite)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+
+  # Backend (NestJS)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.development.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    restart: always
+    command: npm run start:dev
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./server/.development.env
+    environment:
+      # POSTGRES_USER: your_postgres_user
+      # POSTGRES_PASSWORD: your_postgres_password
+      # POSTGRES_DB: your_postgres_database
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
