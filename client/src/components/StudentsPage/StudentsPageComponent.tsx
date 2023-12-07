@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ColumnList from "../../UI/list/ColumnList";
 
 const StudentsPageComponent = () => {
-  const LIMIT = 3;
+  const LIMIT = 10;
   const [students, setStudents] = useState<IStudentItem[] | void>();
   const [page, setPage] = useState(1);
   const [isOver, setIsOver] = useState(false);

@@ -28,6 +28,7 @@ export declare class AuthController {
                 lastName: string;
             };
             role: string;
+            id: string;
         };
     }>;
 }

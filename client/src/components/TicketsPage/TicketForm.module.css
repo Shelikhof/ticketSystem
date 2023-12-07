@@ -1,0 +1,13 @@
+.ticket-form {
+  background: var(--white-color);
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}

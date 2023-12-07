@@ -29,8 +29,8 @@ let TicketsController = class TicketsController {
         return this.ticketService.getById(ticketId);
     }
     getAll(query) {
-        if (query.limit && query.page && query.status) {
-            return this.ticketService.getAllWithLimitAndStatus(query.status, query.limit, query.page);
+        if (query.limit && query.page && query.status && query.userId && query.role) {
+            return this.ticketService.getAllWithLimitAndStatus(query.status, query.limit, query.page, query.userId, query.role);
         }
         if (query.limit && query.page) {
             return this.ticketService.getAllWithLimit(query.limit, query.page);

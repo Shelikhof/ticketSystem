@@ -16,15 +16,19 @@
   transform: translateX(0);
 }
 
-.mobile-header .menu-wrapper {
+.mobile-header .menu-wrapper nav {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.mobile-header .create-ticket-btn button {
-  background: var(--dark-blue-color);
+.mobile-header nav button {
+  background: var(--pink-color);
   width: 100%;
+}
+
+.mobile-header nav button:first-child {
+  background: var(--dark-blue-color);
 }
 
 .close-btn {

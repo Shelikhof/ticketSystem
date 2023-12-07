@@ -112,11 +112,61 @@ export class TicketsService {
     return ticket;
   }
 
-  async getAllWithLimitAndStatus(status: string, limit: number, page: number) {
+  async getAllWithLimitAndStatus(status: string, limit: number, page: number, userId: string, role: string) {
+    if (role === "Преподаватель") {
+      const curator = await this.userRepository.findByPk(userId);
+      const { count, rows } = await this.ticketRepository.findAndCountAll({
+        limit: limit,
+        offset: (page - 1) * limit,
+        attributes: ["id", "title"],
+        include: [
+          {
+            model: Certificate,
+            as: "certificate",
+          },
+        ],
+        where: {
+          status: status,
+          curatorId: curator.id,
+        },
+      });
+      return { count, page, limit, tickets: rows };
+    }
+
+    if (role === "Менеджер") {
+      const manager = await this.userRepository.findByPk(userId);
+      const { count, rows } = await Group.findAndCountAll({
+        where: {
+          platformId: manager.platformId,
+        },
+        include: [
+          {
+            model: Ticket,
+            where: {
+              status: status,
+            },
+            attributes: ["id", "title", "status"],
+            include: [
+              {
+                model: Certificate,
+              },
+            ],
+          },
+        ],
+      });
+      const tickets = rows.flatMap((group) => group.tickets);
+      return { count, page, limit, tickets: tickets };
+    }
     const { count, rows } = await this.ticketRepository.findAndCountAll({
       limit: limit,
       offset: (page - 1) * limit,
       attributes: ["id", "title"],
+      include: [
+        {
+          model: Certificate,
+          as: "certificate",
+        },
+      ],
       where: {
         status: status,
       },

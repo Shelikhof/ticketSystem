@@ -9,10 +9,10 @@ export declare class GroupsController {
         id: string;
     }>;
     getById(groupId: string): Promise<import("./groups.model").Group>;
-    getAll(query: any): Promise<import("./groups.model").Group> | Promise<{
+    getAll(query: any): Promise<import("./groups.model").Group> | Promise<import("./groups.model").Group[]> | Promise<{
         count: number;
         page: number;
         limit: number;
         groups: import("./groups.model").Group[];
-    }> | Promise<import("./groups.model").Group[]>;
+    }>;
 }

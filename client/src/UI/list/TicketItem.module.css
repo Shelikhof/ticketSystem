@@ -1,7 +1,9 @@
 .item-container {
   display: flex;
   justify-content: space-between;
+  /* flex-wrap: wrap; */
   width: 100%;
+  gap: 25px;
   padding: 25px;
   border-radius: 10px;
   background: var(--light-blue-color);
@@ -16,4 +18,15 @@
 .buttons {
   display: flex;
   gap: 30px;
+}
+
+@media (max-width: 840px) {
+  .item-container {
+    flex-direction: column;
+  }
+
+  .buttons {
+    justify-content: space-between;
+    gap: initial;
+  }
 }

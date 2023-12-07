@@ -39,6 +39,7 @@ export declare class AuthService {
                 lastName: string;
             };
             role: string;
+            id: string;
         };
     }>;
 }

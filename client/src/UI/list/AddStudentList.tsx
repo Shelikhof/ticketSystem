@@ -5,17 +5,18 @@ import styles from "./AddStudentList.module.css";
 
 interface IProp {
   students: IStudentItem[];
-  // addedStudents: IStudentItem[];
+  addedStudents: IStudentItem[];
+  handleClick: (item: IStudentItem) => void;
 }
 
-const AddStudentList: React.FC<IProp> = ({ students }) => {
+const AddStudentList: React.FC<IProp> = ({ students, addedStudents, handleClick }) => {
   return (
     <div className={styles["list"]}>
       {students.map((el) => (
-        <div className={styles["item"]} key={el.id}>
+        <div className={styles["item"]} key={el.id} onClick={() => handleClick(el)}>
           <p>{el.fullName}</p>
           <button>
-            <img src={plusIcon} />
+            <img style={{ rotate: addedStudents.includes(el) ? "45deg" : "0deg" }} src={plusIcon} />
           </button>
         </div>
       ))}

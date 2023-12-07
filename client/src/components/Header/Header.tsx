@@ -5,13 +5,15 @@ import logo from "../../assets/images/logo.png";
 import { Button } from "../../UI";
 import MobileHeaderMenu from "./MobileHeaderMenu";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { clearUserInfo } from "../../store/slices/authSlice";
+import Menu from "./Menu";
 
 const Header: React.FC = () => {
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { role, name } = useAppSelector((state) => state.auth);
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -26,17 +28,11 @@ const Header: React.FC = () => {
           <div className={styles["left-side"]}>
             <img src={logo} />
             <p>
-              Валерий Рыбаков <span>Admin</span>
+              {name.firstName} {name.lastName} {role === "Админ" && <span>Админ</span>}
             </p>
           </div>
           <nav>
-            <a href="#">Заявки</a>
-            <a href="#">Преподаватели</a>
-            <a href="#">Студенты</a>
-            <a href="#">Группы</a>
-            <Link to={"/tickets/add"}>
-              <Button>Создать заявку</Button>
-            </Link>
+            <Menu role={role} />
             <Button onClick={logOut} btnStyle="red">
               Выйти
             </Button>
@@ -48,7 +44,7 @@ const Header: React.FC = () => {
           </button>
         </div>
       </Container>
-      <MobileHeaderMenu isActive={isActive} setIsActive={setIsActive} />
+      <MobileHeaderMenu logOut={logOut} role={role} isActive={isActive} setIsActive={setIsActive} />
     </header>
   );
 };

@@ -109,11 +109,60 @@ let TicketsService = class TicketsService {
         });
         return ticket;
     }
-    async getAllWithLimitAndStatus(status, limit, page) {
+    async getAllWithLimitAndStatus(status, limit, page, userId, role) {
+        if (role === "Преподаватель") {
+            const curator = await this.userRepository.findByPk(userId);
+            const { count, rows } = await this.ticketRepository.findAndCountAll({
+                limit: limit,
+                offset: (page - 1) * limit,
+                attributes: ["id", "title"],
+                include: [
+                    {
+                        model: certificates_model_1.Certificate,
+                        as: "certificate",
+                    },
+                ],
+                where: {
+                    status: status,
+                    curatorId: curator.id,
+                },
+            });
+            return { count, page, limit, tickets: rows };
+        }
+        if (role === "Менеджер") {
+            const manager = await this.userRepository.findByPk(userId);
+            const { count, rows } = await groups_model_1.Group.findAndCountAll({
+                where: {
+                    platformId: manager.platformId,
+                },
+                include: [
+                    {
+                        model: tickets_model_1.Ticket,
+                        where: {
+                            status: status,
+                        },
+                        attributes: ["id", "title", "status"],
+                        include: [
+                            {
+                                model: certificates_model_1.Certificate,
+                            },
+                        ],
+                    },
+                ],
+            });
+            const tickets = rows.flatMap((group) => group.tickets);
+            return { count, page, limit, tickets: tickets };
+        }
         const { count, rows } = await this.ticketRepository.findAndCountAll({
             limit: limit,
             offset: (page - 1) * limit,
             attributes: ["id", "title"],
+            include: [
+                {
+                    model: certificates_model_1.Certificate,
+                    as: "certificate",
+                },
+            ],
             where: {
                 status: status,
             },

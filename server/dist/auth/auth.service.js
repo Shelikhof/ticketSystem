@@ -79,6 +79,7 @@ let AuthService = class AuthService {
                         lastName: user.lastName,
                     },
                     role: role.title,
+                    id: user.id,
                 },
             };
         }

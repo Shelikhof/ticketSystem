@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "..";
 import { Link } from "react-router-dom";
 import styles from "./TicketItem.module.css";
+import { useAppSelector } from "../../store/hook";
 
 interface IProp {
   title: string;
@@ -12,6 +13,8 @@ interface IProp {
 }
 
 const TicketItem: React.FC<IProp> = ({ certificateTitle, link, ticketStatus, title, onDelete }) => {
+  const { role } = useAppSelector((data) => data.auth);
+
   return (
     <div className={styles["item-container"]}>
       <div className={styles["left-side"]}>
@@ -22,7 +25,7 @@ const TicketItem: React.FC<IProp> = ({ certificateTitle, link, ticketStatus, tit
         </p>
       </div>
       <div className={styles["buttons"]}>
-        {ticketStatus === "pending" && (
+        {ticketStatus === "pending" && role === "Преподаватель" && (
           <Button btnStyle="red" onClick={onDelete}>
             Отозвать
           </Button>

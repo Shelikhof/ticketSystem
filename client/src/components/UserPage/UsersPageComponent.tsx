@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { IUserItem } from "../../http/interfaces/IUserResponse.interface";
 
 const UsersPageComponent = () => {
-  const LIMIT = 3;
+  const LIMIT = 10;
   const [roles, setRoles] = useState<IRoleItem[]>();
   const [selectedRole, setSelectedRole] = useState("");
   const [searchValue, setSearchValue] = useState("");

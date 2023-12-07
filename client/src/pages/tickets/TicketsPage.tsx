@@ -6,7 +6,7 @@ import TicketsPageComponent from "../../components/TicketsPage/TicketsPageCompon
 const TicketsPage = () => {
   return (
     <PageTemplate>
-      <Container>
+      <Container isSmall>
         <TicketsPageComponent />
       </Container>
     </PageTemplate>

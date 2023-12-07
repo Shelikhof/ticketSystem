@@ -1,0 +1,44 @@
+.container {
+  background: var(--white-color);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.top-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.students-list {
+  margin: 20px 0;
+}
+
+.student-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .top-info {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

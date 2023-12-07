@@ -20,7 +20,7 @@ export declare class TicketsService {
     create(dto: CreateTicketDto): Promise<Ticket>;
     getById(id: string): Promise<any>;
     getAll(): Promise<Ticket[]>;
-    getAllWithLimitAndStatus(status: string, limit: number, page: number): Promise<{
+    getAllWithLimitAndStatus(status: string, limit: number, page: number, userId: string, role: string): Promise<{
         count: number;
         page: number;
         limit: number;

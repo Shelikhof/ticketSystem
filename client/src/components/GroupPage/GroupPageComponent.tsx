@@ -9,7 +9,7 @@ import styles from "./GroupPageComponent.module.css";
 import GroupService from "../../http/GroupService";
 
 const GroupPageComponent = () => {
-  const LIMIT = 3;
+  const LIMIT = 10;
   const [groups, setGroups] = useState<IGroupItem[]>();
   const [page, setPage] = useState(1);
   const [isOver, setIsOver] = useState(false);

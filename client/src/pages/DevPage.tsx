@@ -8,6 +8,7 @@ import SearchSelect from "../UI/forms/SearchSelect";
 import Accordion from "../UI/Accordion";
 import TicketItem from "../UI/list/TicketItem";
 import AddStudentList from "../UI/list/AddStudentList";
+import SwitchButton from "../UI/forms/SwitchButton";
 
 const DevPage = () => {
   const [height, setHeight] = useState(100);
@@ -109,6 +110,7 @@ const DevPage = () => {
       </Accordion>
       <TicketItem certificateTitle="aaa" link="/" ticketStatus="pending" title="Заявка 12 12" />
       <AddStudentList students={students} />
+      <SwitchButton />
     </div>
   );
 };
