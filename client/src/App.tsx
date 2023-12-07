@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppRouter from "./router/AppRouter";
 import "./css/App.css";
@@ -10,6 +10,7 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { isLoading } = useAppSelector((state) => state.auth);
+  const [isError, setIsError] = useState(false);
 
   const fetchData = async () => {
     if (localStorage.getItem("token")) {
@@ -19,9 +20,11 @@ const App: React.FC = () => {
         localStorage.setItem("token", userData.data.token);
       } catch (error) {
         navigate("/login");
+        setIsError(true);
       }
     } else {
       navigate("/login");
+      setIsError(true);
     }
   };
 
@@ -29,7 +32,7 @@ const App: React.FC = () => {
     fetchData();
   }, []);
 
-  if (isLoading && localStorage.getItem("token")) {
+  if (isLoading && localStorage.getItem("token") && !isError) {
     return <p>Загрузка...</p>;
   }
   return <AppRouter />;

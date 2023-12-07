@@ -42,6 +42,20 @@ const SingleTicketPageComponent: React.FC<IProp> = ({ id }) => {
     return;
   };
 
+  const handleCreateReport = async (id: string) => {
+    const buffer = await TicketService.getTicketReport(id);
+    const blob = new Blob([buffer.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    // a.style = "display: none";
+    a.href = url;
+    a.download = `${ticketData?.title}.xlsx`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   if (id && !ticketData) {
     return (
       <ContentContainer>
@@ -83,7 +97,7 @@ const SingleTicketPageComponent: React.FC<IProp> = ({ id }) => {
         <Button btnStyle="gray" onClick={() => navigate("/tickets")}>
           Отмена
         </Button>
-        {role === "Менеджер" && ticketData?.status === "pending" && <Button>Выгрузить заявку</Button>}
+        {role === "Менеджер" && ticketData?.status === "pending" && <Button onClick={() => handleCreateReport(ticketData.id)}>Выгрузить заявку</Button>}
         {role === "Менеджер" && ticketData?.status === "pending" && <Button onClick={() => handleChangeTicketStatus(ticketData!.id, "completed")}>Выполнить заявку</Button>}
         {role === "Преподаватель" && ticketData?.status === "completed" && <Button onClick={() => handleChangeTicketStatus(ticketData!.id, "finished")}>Закрыть заявку</Button>}
       </div>

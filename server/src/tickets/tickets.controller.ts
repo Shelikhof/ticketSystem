@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Header, Param, Post, Put, Query, Res } from "@nestjs/common";
 import { TicketsService } from "./tickets.service";
 import { CreateTicketDto } from "./dto/createTicket.dto";
 import { ChangeStatusTicket } from "./dto/changeStatus.dto";
 import { ChangeGettingStatus } from "./dto/changeGettingStatus.dto";
+import { Response } from "express";
+import * as fs from "fs";
 
 @Controller("tickets")
 export class TicketsController {
@@ -42,5 +44,12 @@ export class TicketsController {
   @Delete(":ticketId")
   delete(@Param("ticketId") ticketId: string) {
     return this.ticketService.delete(ticketId);
+  }
+  @Get("/:ticketId/report")
+  @Header("Content-Type", "text/xlsx")
+  async getReport(@Param("ticketId") ticketId: string, @Res() res: Response) {
+    let result = await this.ticketService.getReportById(ticketId);
+    // res.download(`${result}`);
+    return res.set("Content-Disposition", `attachment; filename=example.xlsx`).send(result);
   }
 }

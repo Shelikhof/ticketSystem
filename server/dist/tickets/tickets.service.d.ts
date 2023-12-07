@@ -8,6 +8,7 @@ import { User } from "src/user/user.model";
 import { TicketStudents } from "./tickets-students.model";
 import { ChangeStatusTicket } from "./dto/changeStatus.dto";
 import { ChangeGettingStatus } from "./dto/changeGettingStatus.dto";
+import * as exceljs from "exceljs";
 export declare class TicketsService {
     private ticketRepository;
     private platfromRepository;
@@ -35,4 +36,5 @@ export declare class TicketsService {
     changeStatus(id: string, status: ChangeStatusTicket): Promise<void>;
     changeGettingStatus(ticketId: string, studentId: string, dto: ChangeGettingStatus): Promise<void>;
     delete(id: string): Promise<void>;
+    getReportById(id: string): Promise<exceljs.Buffer>;
 }

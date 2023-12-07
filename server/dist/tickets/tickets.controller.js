@@ -46,6 +46,10 @@ let TicketsController = class TicketsController {
     delete(ticketId) {
         return this.ticketService.delete(ticketId);
     }
+    async getReport(ticketId, res) {
+        let result = await this.ticketService.getReportById(ticketId);
+        return res.set("Content-Disposition", `attachment; filename=example.xlsx`).send(result);
+    }
 };
 exports.TicketsController = TicketsController;
 __decorate([
@@ -93,6 +97,15 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TicketsController.prototype, "delete", null);
+__decorate([
+    (0, common_1.Get)("/:ticketId/report"),
+    (0, common_1.Header)("Content-Type", "text/xlsx"),
+    __param(0, (0, common_1.Param)("ticketId")),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], TicketsController.prototype, "getReport", null);
 exports.TicketsController = TicketsController = __decorate([
     (0, common_1.Controller)("tickets"),
     __metadata("design:paramtypes", [tickets_service_1.TicketsService])

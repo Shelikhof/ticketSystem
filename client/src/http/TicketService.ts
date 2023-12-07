@@ -26,4 +26,10 @@ export default class TicketService {
   static async deteleTicket(id: string) {
     return $api.delete(`/tickets/${id}`);
   }
+
+  static async getTicketReport(id: string): Promise<AxiosResponse<ArrayBuffer>> {
+    return $api.get(`/tickets/${id}/report`, {
+      responseType: "arraybuffer",
+    });
+  }
 }

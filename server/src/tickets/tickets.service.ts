@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Ticket } from "./tickets.model";
 import { Platform } from "src/platform/platform.model";
@@ -12,6 +12,9 @@ import { ValidationErrorException } from "src/utils/ValidationErrorException";
 import generateTicketTitle from "src/utils/TitleGenerator";
 import { ChangeStatusTicket } from "./dto/changeStatus.dto";
 import { ChangeGettingStatus } from "./dto/changeGettingStatus.dto";
+import * as exceljs from "exceljs";
+import path from "path";
+import * as tmp from "tmp";
 
 @Injectable()
 export class TicketsService {
@@ -213,5 +216,61 @@ export class TicketsService {
     }
     await ticket.destroy();
     return;
+  }
+
+  async getReportById(id: string) {
+    const ticketData = await this.getById(id);
+    const curator = await this.userRepository.findByPk(ticketData.curator.id);
+
+    const workbook = new exceljs.Workbook();
+    const worksheet = workbook.addWorksheet("Tickets");
+
+    worksheet.addRow(["Тип справки: ", ticketData.certificate.title]);
+    worksheet.mergeCells("B1:C1");
+
+    worksheet.addRow(["Группа: ", ticketData.group.name]);
+    worksheet.mergeCells("B2:C2");
+
+    worksheet.addRow(["Куратор: ", ticketData.curator.fullName]);
+    worksheet.mergeCells("B3:C3");
+
+    worksheet.addRow(["Номер телефона: ", curator.telNum]);
+    worksheet.mergeCells("B4:C4");
+
+    worksheet.addRow([]);
+    worksheet.mergeCells("A5:C5");
+
+    let row = worksheet.addRow(["Студенты"]);
+    row.eachCell((cell) => {
+      cell.style.alignment = {
+        horizontal: "center",
+      };
+    });
+    worksheet.mergeCells("A6:C6");
+
+    let index = 7;
+    for (let el of ticketData.students) {
+      const student = await this.studentRepository.findByPk(el.id);
+      const birthDate = `${String(student.birthDate.getDay()).padStart(2, "0")}.${String(student.birthDate.getMonth()).padStart(2, "0")}.${student.birthDate.getFullYear()}`;
+      row = worksheet.addRow([student.fullName, "", birthDate]);
+      // row[0].style.alignment = {
+      //   horizontal: "center",
+      // };
+      worksheet.mergeCells(`A${index}:B${index}`);
+      ++index;
+    }
+
+    worksheet.columns.forEach(function (column, i) {
+      let maxLength = 0;
+      column["eachCell"]({ includeEmpty: true }, function (cell) {
+        var columnLength = cell.value ? cell.value.toString().length : 10;
+        if (columnLength > maxLength) {
+          maxLength = columnLength;
+        }
+      });
+      column.width = maxLength < 10 ? 10 : maxLength;
+    });
+    const buffer = await workbook.xlsx.writeBuffer();
+    return buffer;
   }
 }

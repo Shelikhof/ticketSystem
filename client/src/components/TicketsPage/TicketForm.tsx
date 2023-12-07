@@ -39,9 +39,6 @@ const TicketForm = () => {
       fetchGroupData();
       fetchCertificatesData();
     }
-    // if (certificatesData) {
-    //   setSelectCertificate(certificatesData[0]);
-    // }
   }, [id]);
 
   const hanldeCertificateChange = (id: string) => {

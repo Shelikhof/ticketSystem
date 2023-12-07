@@ -2,6 +2,7 @@ import { TicketsService } from "./tickets.service";
 import { CreateTicketDto } from "./dto/createTicket.dto";
 import { ChangeStatusTicket } from "./dto/changeStatus.dto";
 import { ChangeGettingStatus } from "./dto/changeGettingStatus.dto";
+import { Response } from "express";
 export declare class TicketsController {
     private ticketService;
     constructor(ticketService: TicketsService);
@@ -16,4 +17,5 @@ export declare class TicketsController {
     changeStatus(ticketId: string, dto: ChangeStatusTicket): Promise<void>;
     changeStudentStatus(ticketId: string, studentId: string, dto: ChangeGettingStatus): Promise<void>;
     delete(ticketId: string): Promise<void>;
+    getReport(ticketId: string, res: Response): Promise<Response<any, Record<string, any>>>;
 }
