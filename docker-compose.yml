@@ -6,6 +6,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    container_name: client-react
     ports:
       - "5173:5173"
     depends_on:
@@ -16,6 +17,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    container_name: server-nest
     env_file:
       - ./server/.development.env
     ports:
@@ -27,6 +29,7 @@ services:
 
   # PostgreSQL Database
   postgres:
+    container_name: database-postgres
     image: postgres:latest
     ports:
       - "5432:5432"
