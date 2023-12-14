@@ -9,11 +9,12 @@ export default class StudentService {
   }
 
   static async createStudent(data: IStudentFields): Promise<AxiosResponse<IStudentItem>> {
+    const date = data.birthDate.split(".");
     return $api.post<IStudentItem>("/students/add", {
       firstName: data.firstName,
       lastName: data.lastName,
       surName: data.surName,
-      birthDate: data.birthDate,
+      birthDate: new Date(`${date[2]}-${date[1]}-${date[0]}`),
       gender: data.gender,
       platformId: data.platform,
     });

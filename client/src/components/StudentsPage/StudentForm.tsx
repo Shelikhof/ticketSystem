@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FieldValues, SubmitErrorHandler, SubmitHandler, UseFormRegister, UseFormReturn, useForm, useFormState, useWatch } from "react-hook-form";
-import { Button, Input } from "../../UI";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { Input } from "../../UI";
 import dateValidator from "../../utils/dateValidator";
 import Select from "../../UI/forms/Select";
 import { IPlatformItem } from "../../http/interfaces/IPlatformResponse.interface";

@@ -4,7 +4,6 @@ import CertificateService from "../../http/CertificateService";
 import ContentContainer from "../Container/ContentContainer";
 import { useNavigate } from "react-router-dom";
 import CertificateForm from "./CertificateForm";
-import ListItemSkeleton from "../../UI/skeletons/ListItemSkeleton";
 
 interface IProp {
   id?: string;

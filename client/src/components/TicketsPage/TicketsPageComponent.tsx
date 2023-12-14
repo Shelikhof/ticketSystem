@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Accordion from "../../UI/Accordion";
 import { ITicketItem } from "../../http/interfaces/ITicketResponse.interface";
 import TicketService from "../../http/TicketService";

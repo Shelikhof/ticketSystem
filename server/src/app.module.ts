@@ -23,7 +23,7 @@ import { TicketStudents } from "./tickets/tickets-students.model";
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
+      envFilePath: `.env`,
     }),
     SequelizeModule.forRoot({
       dialect: "postgres",

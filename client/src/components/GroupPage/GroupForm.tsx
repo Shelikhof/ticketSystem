@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SubmitErrorHandler, SubmitHandler, set, useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { IPlatformItem } from "../../http/interfaces/IPlatformResponse.interface";
 import PlatformService from "../../http/PlatformService";
 import { Input } from "../../UI";

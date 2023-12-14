@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import TicketsPage from "../pages/tickets/TicketsPage";
 import AddTicketPage from "../pages/tickets/AddTicketPage";

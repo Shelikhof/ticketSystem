@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Input } from "../../UI";
+import { Input } from "../../UI";
 import styles from "./CertificateForm.module.css";
 import { useNavigate } from "react-router-dom";
 import CertificateService from "../../http/CertificateService";

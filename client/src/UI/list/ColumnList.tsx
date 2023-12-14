@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import InfinityScroll from "./InfinityScroll";
 import styles from "./ColumnList.module.css";
 import ListItem from "./ListItem";

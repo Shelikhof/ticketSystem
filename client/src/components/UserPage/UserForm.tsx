@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { Button, Input } from "../../UI";
+import { Input } from "../../UI";
 import RoleService from "../../http/RoleService";
 import { IRoleItem } from "../../http/interfaces/IRolesRespones.interface";
 import PlatformService from "../../http/PlatformService";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IGroupItem } from "../../http/interfaces/IGroupResponse.interface";
 import ContentContainer from "../Container/ContentContainer";
 import SearchBar from "../../UI/forms/SearchBar";

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../store/hook";
 import { IStudentItem } from "../../http/interfaces/IStudentsResponse.interface";
-import StudentService from "../../http/StudentsService";
 import GroupService from "../../http/GroupService";
 import { ISingleGroup } from "../../http/interfaces/IGroupResponse.interface";
 import { ICertificateItem } from "../../http/interfaces/ICertificatesRespones.interface";

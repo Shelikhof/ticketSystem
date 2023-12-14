@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import styles from "./AddStudentPageComponent.module.css";
 import ContentContainer from "../Container/ContentContainer";
 import StudentForm from "./StudentForm";
 import { useNavigate } from "react-router-dom";

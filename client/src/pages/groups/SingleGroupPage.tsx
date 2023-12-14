@@ -1,4 +1,3 @@
-import React from "react";
 import PageTemplate from "../PageTemplate";
 import Container from "../../components/Container/Container";
 import { useParams } from "react-router-dom";

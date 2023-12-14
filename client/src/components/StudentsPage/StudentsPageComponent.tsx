@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ContentContainer from "../Container/ContentContainer";
 import { Button } from "../../UI";
 import { IStudentItem } from "../../http/interfaces/IStudentsResponse.interface";

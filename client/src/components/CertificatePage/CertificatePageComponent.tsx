@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CertificatePageComponent.module.css";
 import { ICertificateItem } from "../../http/interfaces/ICertificatesRespones.interface";
 import CertificateService from "../../http/CertificateService";

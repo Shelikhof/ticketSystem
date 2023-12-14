@@ -4,7 +4,7 @@ import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.png";
 import { Button } from "../../UI";
 import MobileHeaderMenu from "./MobileHeaderMenu";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { clearUserInfo } from "../../store/slices/authSlice";
 import Menu from "./Menu";

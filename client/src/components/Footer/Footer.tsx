@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Footer.module.css";
 import Container from "../Container/Container";
 import logo from "../../assets/images/logoDev.svg";
