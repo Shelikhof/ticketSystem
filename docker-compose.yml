@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: server-nest
     env_file:
-      - ./server/.development.env
+      - ./server/.env
     ports:
       - "8080:8080"
     depends_on:
@@ -34,7 +34,7 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - ./server/.development.env
+      - ./server/.env
     environment:
       # POSTGRES_USER: your_postgres_user
       # POSTGRES_PASSWORD: your_postgres_password
